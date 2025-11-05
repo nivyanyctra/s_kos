@@ -14,11 +14,11 @@
                     <ul class="navbar-nav me-auto">
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link nav-btn {{ request()->routeIs('settings') ? 'active' : '' }}"
+                                <a class="nav-link nav-btn {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}"
                                     href="{{ route('admin.settings.edit') }}">Setting</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nav-btn {{ request()->routeIs('facilities') ? 'active' : '' }}"
+                                <a class="nav-link nav-btn {{ request()->routeIs('admin.facilities.*') ? 'active' : '' }}"
                                     href="{{ route('admin.facilities.index') }}">FasilitasManagement</a>
                             </li>
                         @endauth

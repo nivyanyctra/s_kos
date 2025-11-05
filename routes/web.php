@@ -9,6 +9,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FacilityManagementController;
 use App\Http\Controllers\RoomManagementController;
 
+Route::resource('facilities', FacilityManagementController::class);
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');

@@ -24,4 +24,5 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', 'edit')->name('edit');
         Route::put('/update', 'update')->name('update');
     });
+    Route::resource('facilities', FacilityManagementController::class);
 });

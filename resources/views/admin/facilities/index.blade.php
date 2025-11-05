@@ -31,8 +31,8 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('facilities.edit', $facility->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('facilities.destroy', $facility->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('admin.facilities.edit', $facility->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('admin.facilities.destroy', $facility->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button onclick="return confirm('Yakin ingin menghapus fasilitas ini?')" class="btn btn-danger btn-sm">Hapus</button>

@@ -27,7 +27,7 @@
         </div>
 
         <button class="btn btn-primary">Perbarui</button>
-        <a href="{{ route('facilities.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('admin.facilities.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

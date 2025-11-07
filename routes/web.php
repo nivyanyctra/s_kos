@@ -24,5 +24,21 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', 'edit')->name('edit');
         Route::put('/update', 'update')->name('update');
     });
-    Route::resource('facilities', FacilityManagementController::class);
+
+    Route::controller(RoomController::class)->prefix('rooms')->name('rooms.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+
+    Route::controller(FacilityManagementController::class)
+        ->prefix('facilities')
+        ->name('facilities.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::put('/{id}', 'update')->name('update');
+            Route::delete('/{id}', 'destroy')->name('destroy');
+        });
 });

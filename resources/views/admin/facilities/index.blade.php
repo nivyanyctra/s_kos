@@ -13,6 +13,7 @@
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 </style>
+
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="fw-bold">Daftar Fasilitas</h3>
@@ -20,14 +21,15 @@
             <i class="bi bi-plus-circle"></i> Tambah Fasilitas
         </a>
     </div>
-    
 
-    @if (session('success'))
+    {{-- Alert sukses --}}
+    @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
+
     <div class="row">
         @forelse ($facilities as $facility)
             <div class="col-md-4 mb-4">
@@ -39,8 +41,8 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ $facility->name }}</h5>
                         <p class="card-text flex-grow-1">{{ Str::limit($facility->description, 100) }}</p>
-                    
-                        <div class="mt-auto d-flex ">
+
+                        <div class="mt-auto d-flex">
                             <a href="{{ route('admin.facilities.edit', $facility->id) }}" class="btn btn-warning btn-sm me-1">Edit</a>
                             <form id="delete-form-{{ $facility->id }}" action="{{ route('admin.facilities.destroy', $facility->id) }}" method="POST">
                                 @csrf
@@ -62,6 +64,7 @@
     </div>
 </div>
 @endsection
+
 @push('scripts')
 <script>
 function confirmDelete(id) {

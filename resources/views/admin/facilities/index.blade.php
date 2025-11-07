@@ -23,8 +23,7 @@
     </div>
 =======
     <h3>Daftar Fasilitas</h3>
-    <a href="{{ route('admin.facilities.create') }}" class="btn btn-primary mb-3">Tambah Fasilitas</a>
->>>>>>> aca5f7d767883c86edb2854d036e725cbdf90555
+    <a href="{{ route('facilities.create') }}" class="btn btn-primary mb-3">Tambah Fasilitas</a>
 
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -18,8 +18,8 @@
                                     href="{{ route('admin.settings.edit') }}">Setting</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nav-btn {{ request()->routeIs('settings') ? 'active' : '' }}"
-                                    href="{{ route('facilities.index') }}">FasilitasManagement</a>
+                                <a class="nav-link nav-btn {{ request()->routeIs('facilities') ? 'active' : '' }}"
+                                    href="{{ route('admin.facilities.index') }}">FasilitasManagement</a>
                             </li>
                         @endauth
                     </ul>

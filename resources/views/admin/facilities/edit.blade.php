@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <h3>Edit Fasilitas</h3>
 
-    <form action="{{ route('facilities.update', $facility->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.facilities.update', $facility->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -23,11 +23,11 @@
             @if ($facility->image_path)
                 <img src="{{ asset('storage/' . $facility->image_path) }}" width="120" class="rounded mb-2"><br>
             @endif
-            <input type="file" name="image" class="form-control">
+            <input type="file" name="image" class="form-control" accept="image/*">
         </div>
 
         <button class="btn btn-primary">Perbarui</button>
-        <a href="{{ route('facilities.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('admin.facilities.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

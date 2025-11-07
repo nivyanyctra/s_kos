@@ -9,8 +9,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FacilityManagementController;
 use App\Http\Controllers\RoomManagementController;
 
-Route::resource('facilities', FacilityManagementController::class);
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
@@ -26,4 +24,5 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', 'edit')->name('edit');
         Route::put('/update', 'update')->name('update');
     });
+    Route::resource('facilities', FacilityManagementController::class);
 });

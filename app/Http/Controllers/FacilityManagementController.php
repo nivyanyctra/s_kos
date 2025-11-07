@@ -13,7 +13,7 @@ class FacilityManagementController extends Controller
     {
         $setting = Setting::first();
         $facilities = Facility::orderBy('created_at', 'desc')->get();
-        
+
         return view('admin.facilities.index', compact('facilities', 'setting'));
     }
 
@@ -40,7 +40,7 @@ class FacilityManagementController extends Controller
         Facility::create($data);
 
         return redirect()
-            ->route('facilities.index')
+            ->route('admin.facilities.index')
             ->with('success', 'Fasilitas berhasil ditambahkan.');
     }
 
@@ -85,7 +85,7 @@ class FacilityManagementController extends Controller
         $facility->delete();
 
         return redirect()
-            ->route('facilities.index')
+            ->route('admin.facilities.index')
             ->with('success', 'Fasilitas berhasil dihapus.');
     }
 }

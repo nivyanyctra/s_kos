@@ -22,7 +22,7 @@
                                 href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-btn {{ request()->routeIs('rooms.index.*') ? 'active' : '' }}"
+                            <a class="nav-link nav-btn {{ request()->routeIs('rooms.*') ? 'active' : '' }}"
                                 href="{{ route('rooms.index') }}">Rooms</a>
                         </li>
                         <li class="nav-item">

@@ -2,68 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Room;
+use App\Models\Setting;
 use App\Models\Facility;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class FacilityManagementController extends Controller
+class RoomManagementController extends Controller
 {
     public function index()
     {
-        $facilities = Facility::all();
-        return view('admin.facilities.index', compact('facilities'));
+        $rooms = Room::all();
+        $setting = Setting::first();
+        return view('rooms', compact('rooms','setting'));
     }
 
+    // 🔹 Tampilkan form tambah kamar
+    public function create()
+    {
+        return view('rooms');
+    }
+
+    // 🔹 Simpan data kamar baru
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|unique:rooms',
+            'price' => 'required|integer',
+            'size' => 'required|string',
+            'status' => 'required|in:available,occupied,maintenance',
             'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->only(['name', 'description']);
+        $data = $request->only(['name', 'price', 'size', 'status', 'description']);
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('facilities', 'public');
+            $data['image_path'] = $request->file('image')->store('rooms', 'public');
         }
 
-        Facility::create($data);
-        return redirect()->back()->with('success', 'Fasilitas berhasil ditambahkan');
+        Room::create($data);
+        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil ditambahkan!');
     }
 
+    // 🔹 Tampilkan form edit kamar
+    public function edit($id)
+    {
+        $room = Room::findOrFail($id);
+        return view('admin.rooms.edit', compact('room'));
+    }
+
+    // 🔹 Update data kamar
     public function update(Request $request, $id)
     {
-        $facility = Facility::findOrFail($id);
+        $room = Room::findOrFail($id);
 
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|unique:rooms,name,' . $room->id,
+            'price' => 'required|integer',
+            'size' => 'required|string',
+            'status' => 'required|in:available,occupied,maintenance',
             'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->only(['name', 'description']);
+        $data = $request->only(['name', 'price', 'size', 'status', 'description']);
 
         if ($request->hasFile('image')) {
-            // hapus gambar lama jika ada
-            if ($facility->image_path) {
-                Storage::disk('public')->delete($facility->image_path);
-            }
-            $data['image_path'] = $request->file('image')->store('facilities', 'public');
+            $data['image_path'] = $request->file('image')->store('rooms', 'public');
         }
 
-        $facility->update($data);
-        return redirect()->back()->with('success', 'Fasilitas berhasil diperbarui');
+        $room->update($data);
+        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil diperbarui!');
     }
 
+    // 🔹 Hapus data kamar
     public function destroy($id)
     {
-        $facility = Facility::findOrFail($id);
-        if ($facility->image_path) {
-            Storage::disk('public')->delete($facility->image_path);
-        }
-        $facility->delete();
-
-        return response()->json(['success' => true]);
+        Room::findOrFail($id)->delete();
+        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil dihapus!');
     }
 }

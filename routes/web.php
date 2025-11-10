@@ -25,7 +25,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/update', 'update')->name('update');
     });
 
-    Route::controller(RoomController::class)->prefix('rooms')->name('rooms.')->group(function () {
+    Route::controller(RoomManagementController::class)->prefix('rooms')->name('rooms.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
         Route::put('/{id}', 'update')->name('update');

@@ -3,17 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-    //
+    // 🔹 Tampilkan semua data kamar
     public function index()
     {
         $rooms = Room::all();
-        return view('rooms', compact('rooms'));
+        $setting = Setting::first();
+        return view('rooms', compact('rooms','setting'));
     }
 
+    // 🔹 Tampilkan form tambah kamar
+    public function create()
+    {
+        return view('rooms');
+    }
+
+    // 🔹 Simpan data kamar baru
     public function store(Request $request)
     {
         $request->validate([
@@ -32,9 +41,17 @@ class RoomController extends Controller
         }
 
         Room::create($data);
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil ditambahkan!');
     }
 
+    // 🔹 Tampilkan form edit kamar
+    public function edit($id)
+    {
+        $room = Room::findOrFail($id);
+        return view('admin.rooms.edit', compact('room'));
+    }
+
+    // 🔹 Update data kamar
     public function update(Request $request, $id)
     {
         $room = Room::findOrFail($id);
@@ -55,12 +72,13 @@ class RoomController extends Controller
         }
 
         $room->update($data);
-        return redirect()->back()->with('success', 'Data berhasil diupdate');
+        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil diperbarui!');
     }
 
+    // 🔹 Hapus data kamar
     public function destroy($id)
     {
         Room::findOrFail($id)->delete();
-        return response()->json(['success' => true]);
+        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil dihapus!');
     }
 }

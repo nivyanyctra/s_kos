@@ -14,13 +14,13 @@ class RoomManagementController extends Controller
     {
         $rooms = Room::all();
         $setting = Setting::first();
-        return view('rooms', compact('rooms','setting'));
+        return view('admin.rooms.index', compact('rooms','setting'));
     }
 
     // 🔹 Tampilkan form tambah kamar
     public function create()
     {
-        return view('rooms');
+        return view('admin.rooms.create');
     }
 
     // 🔹 Simpan data kamar baru

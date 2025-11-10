@@ -8,6 +8,17 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-    // 🔹 Tampilkan semua data kamar
-    
+    public function index()
+    {
+        $rooms = Room::all();
+        $setting = Setting::first();
+        return view('pages.rooms.index', compact('rooms','setting'));
+    }
+
+    public function show($name)
+    {
+        $room = Room::where('name', $name)->firstOrFail();
+        $setting = Setting::first();
+        return view('pages.rooms.show', compact('room','setting'));
+    }
 }

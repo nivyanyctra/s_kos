@@ -16,4 +16,9 @@ class HomeController extends Controller
         $setting = Setting::first();
         return view('index', compact('setting'));
     }
+    public function about()
+    {
+        $setting = Setting::first();
+        return view('pages.about', compact('setting'));
+    }
 }

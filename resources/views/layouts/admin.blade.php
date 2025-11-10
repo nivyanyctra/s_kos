@@ -20,7 +20,7 @@
 
 <body>
     <div id="app">
-        @include('partials.admin_navbar')
+        @include('components.admin_navbar')
 
         <main class="py-4 container">
             @if (session('status'))

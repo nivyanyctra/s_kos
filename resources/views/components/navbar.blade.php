@@ -1,6 +1,6 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
+                <a class="navbar-brand" href="{{ url('/') }}">
                     {{ $setting->name }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -12,32 +12,24 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        @auth
-                            <li class="nav-item">
-                                <a class="nav-link nav-btn {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}"
-                                    href="{{ route('admin.settings.edit') }}">Setting</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-btn {{ request()->routeIs('admin.facilities.*') ? 'active' : '' }}"
-                                    href="{{ route('admin.facilities.index') }}">FasilitasManagement</a>
-                            </li>
-                        @endauth
+                        @yield('nav-left')
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
+                        <li class="nav-item">
+                            <a class="nav-link nav-btn {{ request()->routeIs('home') ? 'active' : '' }}"
+                                href="{{ route('home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-btn {{ request()->routeIs('rooms.index.*') ? 'active' : '' }}"
+                                href="{{ route('rooms.index') }}">Rooms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-btn {{ request()->routeIs('about') ? 'active' : '' }}"
+                                href="{{ route('about') }}">Rooms</a>
+                        </li>
+                        @auth
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,7 +48,7 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                        @endauth
                     </ul>
                 </div>
             </div>

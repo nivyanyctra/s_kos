@@ -29,6 +29,10 @@
                             <a class="nav-link nav-btn {{ request()->routeIs('about') ? 'active' : '' }}"
                                 href="{{ route('about') }}">About</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-btn {{ request()->routeIs('contact') ? 'active' : '' }}"
+                                href="{{ route('contact') }}">Contact</a>
+                        </li>
                         @auth
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"

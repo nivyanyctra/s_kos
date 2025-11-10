@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('size');
             $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
             $table->string('description');
-            $table->string('image_path')->nullable();
+            $table->string('image_path');
             $table->timestamps();
         });
     }

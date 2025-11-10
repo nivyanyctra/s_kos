@@ -11,8 +11,9 @@ use App\Http\Controllers\RoomManagementController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
-Route::get('/rooms/detail/{name}', [RoomController::class, 'show'])->name('rooms.detail');
+Route::get('/rooms/detail/{name}', [RoomController::class, 'show'])->name('rooms.show');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/register', [AuthController::class, 'register'])->name('auth.register');

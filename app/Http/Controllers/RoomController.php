@@ -18,7 +18,8 @@ class RoomController extends Controller
     public function show($name)
     {
         $room = Room::where('name', $name)->firstOrFail();
+        $relatedRooms = Room::all();
         $setting = Setting::first();
-        return view('pages.rooms.show', compact('room','setting'));
+        return view('pages.rooms.show', compact('room','setting', 'relatedRooms'));
     }
 }

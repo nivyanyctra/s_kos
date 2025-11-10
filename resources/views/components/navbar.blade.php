@@ -27,7 +27,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-btn {{ request()->routeIs('about') ? 'active' : '' }}"
-                                href="{{ route('about') }}">Rooms</a>
+                                href="{{ route('about') }}">About</a>
                         </li>
                         @auth
                             <li class="nav-item dropdown">

@@ -13,10 +13,16 @@ class AuthController extends Controller
 
     public function login()
     {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
         return view('auth.login');
     }
     public function register()
     {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
         return view('auth.register');
     }
 

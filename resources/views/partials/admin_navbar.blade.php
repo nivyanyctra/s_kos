@@ -14,12 +14,16 @@
                     <ul class="navbar-nav me-auto">
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link nav-btn {{ request()->routeIs('settings') ? 'active' : '' }}"
+                                <a class="nav-link nav-btn {{ request()->routeIs('*.settings') ? 'active' : '' }}"
                                     href="{{ route('admin.settings.edit') }}">Setting</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nav-btn {{ request()->routeIs('facilities') ? 'active' : '' }}"
+                                <a class="nav-link nav-btn {{ request()->routeIs('*.facilities') ? 'active' : '' }}"
                                     href="{{ route('admin.facilities.index') }}">FasilitasManagement</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-btn {{ request()->routeIs('*.rooms') ? 'active' : '' }}"
+                                    href="{{ route('admin.rooms.index') }}">RoomsManagement</a>
                             </li>
                         @endauth
                     </ul>
@@ -45,12 +49,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('auth.logout') }}"
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('auth.logout') }}" method="POST"
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         class="d-none">
                                         @csrf
                                     </form>

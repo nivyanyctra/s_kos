@@ -1,36 +1,70 @@
 <?php
 
-use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoomController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\FacilityManagementController;
-use App\Http\Controllers\RoomManagementController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+| Ini adalah file utama untuk semua route aplikasi.
+| Semua route admin dilindungi oleh middleware auth.
+*/
+
+// 🔹 Halaman utama (landing page)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.post')->middleware('guest');
-Route::post('/register', [AuthController::class, 'store'])->name('auth.register.post')->middleware('guest');
-Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+// 🔹 Autentikasi
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate'])
+    ->name('login.post')
+    ->middleware('guest');
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'store'])
+    ->name('register.post')
+    ->middleware('guest');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+// 🔹 Grup route admin
+Route::middleware('auth')
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+    // Dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
-    Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
-        Route::get('/', 'edit')->name('edit');
-        Route::put('/update', 'update')->name('update');
-    });
+    // 🔹 Manajemen Pengaturan Kos (Setting)
+    Route::controller(SettingController::class)
+        ->prefix('settings')
+        ->name('settings.')
+        ->group(function () {
+            Route::get('/', 'edit')->name('edit');
+            Route::put('/update', 'update')->name('update');
+        });
 
-    Route::controller(RoomController::class)->prefix('rooms')->name('rooms.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::put('/{id}', 'update')->name('update');
-        Route::delete('/{id}', 'destroy')->name('destroy');
-    });
+    // 🔹 Manajemen Kamar
+    Route::controller(RoomController::class)
+        ->prefix('rooms')
+        ->name('rooms.')
+        ->group(function () {
 
+            Route::get('/', 'index')->name('index');           // daftar kamar
+            Route::get('/create', 'create')->name('create');   // ⬅️ DITAMBAHKAN
+            Route::post('/', 'store')->name('store');          // simpan kamar
+            Route::get('/{id}/edit', 'edit')->name('edit');    // edit kamar
+            Route::put('/{id}', 'update')->name('update');     // update kamar
+            Route::delete('/{id}', 'destroy')->name('destroy');// hapus kamar
+        });
+
+    // 🔹 Manajemen Fasilitas
     Route::resource('facilities', FacilityManagementController::class);
 });

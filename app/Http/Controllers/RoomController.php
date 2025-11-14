@@ -13,67 +13,73 @@ class RoomController extends Controller
     {
         $rooms = Room::all();
         $setting = Setting::first();
-        return view('rooms', compact('rooms','setting'));
+        return view('admin.rooms.index', compact('rooms', 'setting'));
     }
 
     // 🔹 Tampilkan form tambah kamar
     public function create()
     {
-        return view('rooms');
+        $setting = Setting::first();
+        return view('admin.rooms.create', compact('setting'));
     }
 
     // 🔹 Simpan data kamar baru
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|unique:rooms',
-            'price' => 'required|integer',
-            'size' => 'required|string',
-            'status' => 'required|in:available,occupied,maintenance',
-            'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|unique:rooms',
+        'price' => 'required|integer',
+        'size' => 'required|string',
+        'status' => 'required|in:available,occupied,maintenance',
+        'description' => 'required|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        $data = $request->only(['name', 'price', 'size', 'status', 'description']);
+    $data = $request->only(['name', 'price', 'size', 'status', 'description']);
 
-        if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('rooms', 'public');
-        }
-
-        Room::create($data);
-        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil ditambahkan!');
+    if ($request->hasFile('image')) {
+        // Simpan ke storage/app/public/rooms
+        $data['image_path'] = $request->file('image')->store('rooms', 'public');
     }
+
+    Room::create($data);
+
+    return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil ditambahkan!');
+}
 
     // 🔹 Tampilkan form edit kamar
     public function edit($id)
     {
         $room = Room::findOrFail($id);
-        return view('admin.rooms.edit', compact('room'));
+        $setting = Setting::first();
+        return view('admin.rooms.edit', compact('room', 'setting'));
     }
 
     // 🔹 Update data kamar
     public function update(Request $request, $id)
-    {
-        $room = Room::findOrFail($id);
+{
+    $room = Room::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|unique:rooms,name,' . $room->id,
-            'price' => 'required|integer',
-            'size' => 'required|string',
-            'status' => 'required|in:available,occupied,maintenance',
-            'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-        ]);
+    $request->validate([
+        'name' => 'required|unique:rooms,name,' . $room->id,
+        'price' => 'required|integer',
+        'size' => 'required|string',
+        'status' => 'required|in:available,occupied,maintenance',
+        'description' => 'required|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        $data = $request->only(['name', 'price', 'size', 'status', 'description']);
+    $data = $request->only(['name', 'price', 'size', 'status', 'description']);
 
-        if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('rooms', 'public');
-        }
-
-        $room->update($data);
-        return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil diperbarui!');
+    if ($request->hasFile('image')) {
+        $data['image_path'] = $request->file('image')->store('rooms', 'public');
     }
+
+    $room->update($data);
+
+    return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil diperbarui!');
+}
+
 
     // 🔹 Hapus data kamar
     public function destroy($id)

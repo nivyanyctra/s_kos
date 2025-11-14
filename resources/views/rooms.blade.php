@@ -2,18 +2,16 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="mb-4">Manajemen Kamar Kos</h2>
+    <h2 class="mb-4">Manajemen Kamar</h2>
 
-    {{-- Notifikasi sukses --}}
+    {{-- 🔹 Tampilkan pesan sukses --}}
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    {{-- Form Tambah Kamar --}}
+    {{-- 🔹 Form Tambah Kamar --}}
     <div class="card mb-4">
-        <div class="card-header">Tambah Kamar Baru</div>
+        <div class="card-header bg-primary text-white">Tambah Kamar</div>
         <div class="card-body">
             <form action="{{ route('admin.rooms.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -27,6 +25,7 @@
                         <input type="number" name="price" class="form-control" required>
                     </div>
                 </div>
+
                 <div class="row mb-3">
                     <div class="col">
                         <label>Ukuran</label>
@@ -35,33 +34,35 @@
                     <div class="col">
                         <label>Status</label>
                         <select name="status" class="form-select" required>
-                            <option value="available">Available</option>
-                            <option value="occupied">Occupied</option>
-                            <option value="maintenance">Maintenance</option>
+                            <option value="available">Tersedia</option>
+                            <option value="occupied">Terisi</option>
+                            <option value="maintenance">Perbaikan</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="mb-3">
                     <label>Deskripsi</label>
-                    <textarea name="description" class="form-control" required></textarea>
+                    <textarea name="description" class="form-control" rows="2" required></textarea>
                 </div>
+
                 <div class="mb-3">
                     <label>Gambar (opsional)</label>
                     <input type="file" name="image" class="form-control">
                 </div>
-                <button type="submit" class="btn btn-primary">Tambah</button>
+
+                <button type="submit" class="btn btn-success">Tambah</button>
             </form>
         </div>
     </div>
 
-    {{-- Tabel Daftar Kamar --}}
+    {{-- 🔹 Tabel Data Kamar --}}
     <div class="card">
-        <div class="card-header">Daftar Kamar</div>
+        <div class="card-header bg-dark text-white">Daftar Kamar</div>
         <div class="card-body">
-            <table class="table table-bordered table-striped">
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nama</th>
                         <th>Harga</th>
                         <th>Ukuran</th>
@@ -74,27 +75,77 @@
                 <tbody>
                     @foreach($rooms as $room)
                     <tr>
-                        <td>{{ $room->id }}</td>
                         <td>{{ $room->name }}</td>
-                        <td>{{ $room->price }}</td>
+                        <td>Rp{{ number_format($room->price, 0, ',', '.') }}</td>
                         <td>{{ $room->size }}</td>
-                        <td>{{ $room->status }}</td>
+                        <td>{{ ucfirst($room->status) }}</td>
                         <td>{{ $room->description }}</td>
                         <td>
                             @if($room->image_path)
-                                <img src="{{ asset('storage/'.$room->image_path) }}" alt="Room Image" width="70">
+                                <img src="{{ asset('storage/'.$room->image_path) }}" width="70">
                             @else
-                                <small>Tidak ada</small>
+                                -
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?');">
+                            {{-- 🔸 Tombol Edit (modal) --}}
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $room->id }}">Edit</button>
+
+                            {{-- 🔸 Tombol Hapus --}}
+                            <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm">Hapus</button>
+                                <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus kamar ini?')">Hapus</button>
                             </form>
                         </td>
                     </tr>
+
+                    {{-- 🔹 Modal Edit --}}
+                    <div class="modal fade" id="editModal{{ $room->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <form action="{{ route('admin.rooms.update', $room->id) }}" method="POST" enctype="multipart/form-data" class="modal-content">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Kamar: {{ $room->name }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-2">
+                                        <label>Nama</label>
+                                        <input type="text" name="name" value="{{ $room->name }}" class="form-control" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Harga</label>
+                                        <input type="number" name="price" value="{{ $room->price }}" class="form-control" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Ukuran</label>
+                                        <input type="text" name="size" value="{{ $room->size }}" class="form-control" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Status</label>
+                                        <select name="status" class="form-select" required>
+                                            <option value="available" @selected($room->status == 'available')>Tersedia</option>
+                                            <option value="occupied" @selected($room->status == 'occupied')>Terisi</option>
+                                            <option value="maintenance" @selected($room->status == 'maintenance')>Perbaikan</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Deskripsi</label>
+                                        <textarea name="description" class="form-control" rows="2" required>{{ $room->description }}</textarea>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Gambar (opsional)</label>
+                                        <input type="file" name="image" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>

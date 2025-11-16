@@ -21,10 +21,11 @@
                     Have questions or ready to book your new home? Our friendly team is here to help
                 </p>
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="tel:+622112345678" class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-3">
+                    <a href="tel:{{ $setting->phone }}" class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-3">
                         <i class="bi bi-telephone me-2"></i>Call Us
                     </a>
-                    <a href="mailto:hello@kostkita.com" class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-3">
+                    <a href="mailto:{{ $setting->email }}"
+                        class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-3">
                         <i class="bi bi-envelope me-2"></i>Email Us
                     </a>
                 </div>
@@ -108,8 +109,8 @@
                         <i class="bi bi-check-circle me-2"></i>Thank you for contacting us!
                     </h5>
                     <p class="mb-0">We've received your message and will get back to you within 24 hours. For urgent
-                        inquiries, please call us directly at <a href="tel:+622112345678" class="alert-link">+62 21 1234
-                            5678</a>.</p>
+                        inquiries, please call us directly at <a href="tel:{{ $setting->phone }}"
+                            class="alert-link">{{ $setting->phone }}</a>.</p>
                 </div>
             </div>
 
@@ -129,7 +130,7 @@
                             </div>
                             <div>
                                 <h5 class="fw-bold mb-0">Our Location</h5>
-                                <p class="text-muted mb-0">Jl. Sudirman No. 123, Jakarta Pusat 10220</p>
+                                <p class="text-muted mb-0">{{ $setting->address }}</p>
                             </div>
                         </div>
 
@@ -156,14 +157,10 @@
                             <div>
                                 <h5 class="fw-bold mb-0">Phone Numbers</h5>
                                 <ul class="list-unstyled mb-0">
-                                    <li class="mb-1">
-                                        <a href="tel:+622112345678" class="text-decoration-none text-dark fw-medium">
-                                            <i class="bi bi-telephone me-1"></i>Office: +62 21 1234 5678
-                                        </a>
-                                    </li>
                                     <li>
-                                        <a href="tel:+6281234567890" class="text-decoration-none text-dark fw-medium">
-                                            <i class="bi bi-whatsapp me-1 text-success"></i>WhatsApp: +62 812-3456-7890
+                                        <a href="tel:{{ $setting->phone }}"
+                                            class="text-decoration-none text-dark fw-medium">
+                                            <i class="bi bi-whatsapp me-1 text-success"></i>WhatsApp: {{ $setting->phone }}
                                         </a>
                                     </li>
                                 </ul>
@@ -178,16 +175,10 @@
                             <div>
                                 <h5 class="fw-bold mb-0">Email Addresses</h5>
                                 <ul class="list-unstyled mb-0">
-                                    <li class="mb-1">
-                                        <a href="mailto:hello@kostkita.com"
-                                            class="text-decoration-none text-dark fw-medium">
-                                            <i class="bi bi-envelope me-1"></i>General: hello@kostkita.com
-                                        </a>
-                                    </li>
                                     <li>
-                                        <a href="mailto:booking@kostkita.com"
+                                        <a href="mailto:{{ $setting->email }}"
                                             class="text-decoration-none text-dark fw-medium">
-                                            <i class="bi bi-calendar-check me-1"></i>Bookings: booking@kostkita.com
+                                            <i class="bi bi-calendar-check me-1"></i>Bookings: {{ $setting->email }}
                                         </a>
                                     </li>
                                 </ul>
@@ -215,18 +206,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Emergency Contact -->
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
-                    <div class="card-body p-4 text-center bg-danger bg-opacity-10 rounded-4">
-                        <i class="bi bi-exclamation-triangle fs-1 text-danger mb-3"></i>
-                        <h4 class="fw-bold text-danger mb-2">Emergency Contact</h4>
-                        <p class="text-muted mb-3">For urgent maintenance or security issues</p>
-                        <a href="tel:+62811123456" class="btn btn-danger btn-lg px-4 py-3 fw-bold rounded-3 shadow">
-                            <i class="bi bi-telephone me-2"></i>+62 811-1234-56
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -239,14 +218,10 @@
             </div>
             <div class="card-body p-0">
                 <div class="ratio ratio-16x9">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.487376245187!2d106.82512597474575!3d-6.208763393728192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3bc8ab8e73f%3A0x4c5d30c9b3b5f7e1!2sMonumen%20Nasional!5e0!3m2!1sen!2sid!4v1699596506103!5m2!1sen!2sid"
-                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    {!! $setting->location_map !!}
                 </div>
                 <div class="p-4 bg-light">
-                    <p class="mb-1 fw-bold">Jl. Sudirman No. 123, Jakarta Pusat 10220</p>
+                    <p class="mb-1 fw-bold">{{ $setting->address }}</p>
                     <p class="text-muted mb-0">Click on the map to open in Google Maps for directions</p>
                 </div>
             </div>
@@ -302,54 +277,6 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Contact CTA -->
-        <div class="card border-0 rounded-4 overflow-hidden shadow-lg">
-            <div class="row g-0">
-                <div class="col-lg-6 bg-primary text-white d-flex align-items-center p-5">
-                    <div>
-                        <h2 class="fw-bold mb-3 display-6">Need Immediate Assistance?</h2>
-                        <p class="lead opacity-90 mb-4">Our dedicated support team is available 24/7 for urgent matters</p>
-                        <div class="d-flex flex-column gap-3">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                                    style="width: 50px; height: 50px;">
-                                    <i class="bi bi-whatsapp fs-2"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0 opacity-75">WhatsApp Support</p>
-                                    <h4 class="mb-0 fw-bold">+62 812-3456-7890</h4>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                                    style="width: 50px; height: 50px;">
-                                    <i class="bi bi-telephone fs-2"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0 opacity-75">Emergency Hotline</p>
-                                    <h4 class="mb-0 fw-bold">+62 811-1234-56</h4>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                                    style="width: 50px; height: 50px;">
-                                    <i class="bi bi-chat-left-dots fs-2"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0 opacity-75">Live Chat</p>
-                                    <h4 class="mb-0 fw-bold">Available 8AM-10PM</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center bg-light">
-                    <img src="{{ asset('images/contact-illustration.svg') }}" class="img-fluid"
-                        alt="Contact Illustration" style="max-width: 80%;">
                 </div>
             </div>
         </div>

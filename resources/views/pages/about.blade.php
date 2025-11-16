@@ -16,7 +16,8 @@
                 </svg>
             </div>
             <div class="position-relative z-index-1">
-                <h1 class="display-3 fw-bold mb-3 text-primary">About <span class="text-dark">KostKita</span></h1>
+                <h1 class="display-3 fw-bold mb-3 text-primary">About <span class="text-dark">{{ $setting->name }}</span>
+                </h1>
                 <p class="lead text-muted mb-4 px-md-5">
                     Where comfort meets community - your home away from home since 2018
                 </p>
@@ -66,138 +67,6 @@
                     to quality, cleanliness, and community has made us the preferred choice for thousands of tenants over
                     the years.
                 </p>
-                <div class="d-flex align-items-center">
-                    <div class="me-4 text-center">
-                        <h3 class="fw-bold text-primary display-6">250+</h3>
-                        <small class="text-muted">Happy Tenants</small>
-                    </div>
-                    <div class="me-4 text-center">
-                        <h3 class="fw-bold text-primary display-6">15</h3>
-                        <small class="text-muted">Locations</small>
-                    </div>
-                    <div class="text-center">
-                        <h3 class="fw-bold text-primary display-6">5</h3>
-                        <small class="text-muted">Awards</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mission & Vision -->
-        <div class="row mb-5 g-4">
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-start mb-4">
-                            <div class="bg-light-primary rounded-circle p-3 me-3">
-                                <i class="bi bi-bullseye fs-2 text-primary"></i>
-                            </div>
-                            <div>
-                                <h3 class="fw-bold">Our Mission</h3>
-                            </div>
-                        </div>
-                        <p class="fs-5 text-muted mb-4">
-                            To provide safe, comfortable, and affordable boarding solutions that foster community and
-                            personal growth for students and young professionals.
-                        </p>
-                        <ul class="list-unstyled">
-                            <li class="d-flex mb-2">
-                                <i class="bi bi-check-circle-fill text-success mt-1 me-2"></i>
-                                <span>Quality facilities with modern amenities</span>
-                            </li>
-                            <li class="d-flex mb-2">
-                                <i class="bi bi-check-circle-fill text-success mt-1 me-2"></i>
-                                <span>24/7 security and maintenance support</span>
-                            </li>
-                            <li class="d-flex mb-2">
-                                <i class="bi bi-check-circle-fill text-success mt-1 me-2"></i>
-                                <span>Community events and networking opportunities</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-start mb-4">
-                            <div class="bg-light-warning rounded-circle p-3 me-3">
-                                <i class="bi bi-binoculars fs-2 text-warning"></i>
-                            </div>
-                            <div>
-                                <h3 class="fw-bold">Our Vision</h3>
-                            </div>
-                        </div>
-                        <p class="fs-5 text-muted mb-4">
-                            To become Indonesia's most trusted boarding house provider known for exceptional living
-                            experiences and community development.
-                        </p>
-                        <div class="position-relative ps-4">
-                            <div class="position-absolute start-0 top-0 h-100 w-1px bg-primary"></div>
-                            <div class="mb-4">
-                                <h5 class="fw-bold mb-1">2025 Goals</h5>
-                                <p class="text-muted mb-1">Expand to 50+ strategic locations across Java</p>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <h5 class="fw-bold mb-1">Community Impact</h5>
-                                <p class="text-muted mb-1">Create scholarship programs for 100+ students annually</p>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 40%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <h5 class="fw-bold mb-1">Sustainability</h5>
-                                <p class="text-muted mb-1">Achieve 100% eco-friendly operations</p>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Team Section -->
-        <div class="text-center mb-5">
-            <h2 class="fw-bold mb-4">Meet Our Team</h2>
-            <p class="text-muted mx-auto mb-5" style="max-width: 700px;">
-                Passionate professionals dedicated to making your boarding experience exceptional
-            </p>
-
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                @foreach ([['name' => 'Budi Santoso', 'role' => 'Founder', 'bio' => '10+ years in property management', 'img' => 'team-1.jpg'], ['name' => 'Siti Aminah', 'role' => 'Head of Operations', 'bio' => 'Customer experience specialist', 'img' => 'team-2.jpg'], ['name' => 'Agus Wijaya', 'role' => 'Facilities Manager', 'bio' => 'Maintenance & security expert', 'img' => 'team-3.jpg'], ['name' => 'Dewi Lestari', 'role' => 'Community Manager', 'bio' => 'Event organizer & tenant relations', 'img' => 'team-4.jpg']] as $member)
-                    <div class="col">
-                        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 team-card">
-                            <div class="position-relative" style="height: 250px;">
-                                <img src="{{ asset('images/' . $member['img']) }}" class="w-100 h-100 object-fit-cover"
-                                    alt="{{ $member['name'] }}" style="object-position: center 20%;">
-                                <div
-                                    class="position-absolute bottom-0 start-0 end-0 bg-gradient-to-t from-dark to-transparent p-4 text-white">
-                                    <h5 class="fw-bold mb-0">{{ $member['name'] }}</h5>
-                                    <small>{{ $member['role'] }}</small>
-                                </div>
-                            </div>
-                            <div class="card-body p-4 text-center">
-                                <p class="text-muted mb-3">{{ $member['bio'] }}</p>
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a href="#" class="btn btn-sm btn-outline-primary rounded-circle p-2">
-                                        <i class="bi bi-linkedin"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-sm btn-outline-primary rounded-circle p-2">
-                                        <i class="bi bi-twitter"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-sm btn-outline-primary rounded-circle p-2">
-                                        <i class="bi bi-instagram"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
             </div>
         </div>
 
@@ -207,7 +76,7 @@
                 <div class="text-center mb-5">
                     <h2 class="fw-bold mb-3">Our Core Values</h2>
                     <p class="text-muted mx-auto" style="max-width: 700px;">
-                        Principles that guide everything we do at KostKita
+                        Principles that guide everything we do at {{ $setting->name }}
                     </p>
                 </div>
 
@@ -245,8 +114,8 @@
                             <div class="row align-items-center">
                                 <div class="col-md-4 mb-4 mb-md-0">
                                     <div class="text-center">
-                                        <img src="{{ asset('images/' . $testimonial['img']) }}"
-                                            class="rounded-circle mb-3" alt="{{ $testimonial['name'] }}"
+                                        <img src="{{ asset('images/' . $testimonial['img']) }}" class="rounded-circle mb-3"
+                                            alt="{{ $testimonial['name'] }}"
                                             style="width: 120px; height: 120px; object-fit: cover;">
                                         <h5 class="fw-bold mb-0">{{ $testimonial['name'] }}</h5>
                                         <p class="text-muted mb-0">{{ $testimonial['role'] }}</p>
@@ -260,8 +129,7 @@
                                 <div class="col-md-8">
                                     <div class="position-relative ps-md-4">
                                         <div class="position-absolute top-0 start-0 d-none d-md-block">
-                                            <i class="bi bi-quote text-primary"
-                                                style="font-size: 3rem; opacity: 0.2;"></i>
+                                            <i class="bi bi-quote text-primary" style="font-size: 3rem; opacity: 0.2;"></i>
                                         </div>
                                         <p class="fs-4 fst-italic mb-0 ps-md-5" style="color: #495057;">
                                             "{{ $testimonial['text'] }}"
@@ -289,8 +157,9 @@
         <div class="card border-0 rounded-4 overflow-hidden shadow-lg mb-5" id="contact">
             <div class="row g-0">
                 <div class="col-lg-6 d-none d-lg-block">
-                    <div class="h-100 w-100"
-                        style="background: url('{{ asset('images/contact-bg.jpg') }}') center/cover;"></div>
+                    <div class="location-map-container h-100 w-100">
+                        {!! $setting->location_map !!}
+                    </div>
                 </div>
                 <div class="col-lg-6 bg-primary text-white">
                     <div class="p-5 d-flex flex-column justify-content-center h-100">
@@ -302,15 +171,15 @@
                         <ul class="list-unstyled mb-5">
                             <li class="d-flex mb-3">
                                 <i class="bi bi-geo-alt fs-4 me-3 mt-1"></i>
-                                <span>Jl. Sudirman No. 123, Jakarta Pusat 10220</span>
+                                <span>{{ $setting->address }}</span>
                             </li>
                             <li class="d-flex mb-3">
                                 <i class="bi bi-telephone fs-4 me-3 mt-1"></i>
-                                <span>+62 21 1234 5678</span>
+                                <span>{{ $setting->phone }}</span>
                             </li>
                             <li class="d-flex mb-3">
                                 <i class="bi bi-envelope fs-4 me-3 mt-1"></i>
-                                <span>hello@kostkita.com</span>
+                                <span>{{ $setting->email }}</span>
                             </li>
                             <li class="d-flex">
                                 <i class="bi bi-clock fs-4 me-3 mt-1"></i>
@@ -393,6 +262,12 @@
             .lead {
                 font-size: 1.1rem !important;
             }
+        }
+
+        .location-map-container iframe {
+            width: 100% !important;
+            height: 100% !important;
+            border: none;
         }
     </style>
 @endpush

@@ -21,23 +21,21 @@
 </head>
 
 <body>
-    <div id="app">
-        @include('components.navbar')
+    @include('components.navbar')
 
-        <main class="py-4 container">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
+    <main>
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
 
-            @yield('content')
-        </main>
+        @yield('content')
+    </main>
 
-        <footer class="text-center py-3">
-            <small>&copy; {{ date('Y') }} {{ $setting->name }}</small>
-        </footer>
-    </div>
+    <footer class="text-center py-3">
+        <small>&copy; {{ date('Y') }} {{ $setting->name }}</small>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

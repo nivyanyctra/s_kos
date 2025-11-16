@@ -59,8 +59,8 @@
 
                     <div class="text-center text-muted small">
                         Belum punya akun?
-                        @if (Route::has('auth.register'))
-                            <a href="{{ route('auth.register') }}" class="link-primary">Daftar</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="link-primary">Daftar</a>
                         @endif
                     </div>
                 </form>

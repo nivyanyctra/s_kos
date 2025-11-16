@@ -8,6 +8,15 @@
         @csrf
 
         <div class="mb-3">
+            <label for="room">Kamar</label>
+            <select name="room_id" id="room" class="form-select" required>
+                @foreach($rooms as $room)
+                    <option value="{{ $room->id }}">{{ $room->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label>Nama Fasilitas</label>
             <input type="text" name="name" class="form-control" required>
         </div>

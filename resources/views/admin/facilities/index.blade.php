@@ -39,7 +39,7 @@
                     @endif
 
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ $facility->name }}</h5>
+                        <h5 class="card-title">Kamar {{ $facility->room->name }} | {{ $facility->name }}</h5>
                         <p class="card-text flex-grow-1">{{ Str::limit($facility->description, 100) }}</p>
 
                         <div class="mt-auto d-flex">

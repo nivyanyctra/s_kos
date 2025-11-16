@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use App\Models\Setting;
 use App\Models\Facility;
+use App\Models\RoomFacility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,13 +18,12 @@ class RoomManagementController extends Controller
         return view('admin.rooms.index', compact('rooms','setting'));
     }
 
-    // 🔹 Tampilkan form tambah kamar
     public function create()
     {
-        return view('admin.rooms.create');
+        $setting = Setting::first();
+        return view('admin.rooms.create', compact('setting'));
     }
 
-    // 🔹 Simpan data kamar baru
     public function store(Request $request)
     {
         $request->validate([
@@ -41,18 +41,17 @@ class RoomManagementController extends Controller
             $data['image_path'] = $request->file('image')->store('rooms', 'public');
         }
 
-        Room::create($data);
+        $room = Room::create($data);
         return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil ditambahkan!');
     }
 
-    // 🔹 Tampilkan form edit kamar
     public function edit($id)
     {
+        $setting = Setting::first();
         $room = Room::findOrFail($id);
-        return view('admin.rooms.edit', compact('room'));
+        return view('admin.rooms.edit', compact('room', 'setting'));
     }
 
-    // 🔹 Update data kamar
     public function update(Request $request, $id)
     {
         $room = Room::findOrFail($id);

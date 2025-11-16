@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Facility;
+use App\Models\Room;
 use App\Models\Setting;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,26 +13,27 @@ class FacilityManagementController extends Controller
     public function index()
     {
         $setting = Setting::first();
-        $facilities = Facility::orderBy('created_at', 'desc')->get();
-
+        $facilities = Facility::with('room')->orderBy('created_at', 'desc')->get();
         return view('admin.facilities.index', compact('facilities', 'setting'));
     }
 
     public function create()
     {
         $setting = Setting::first();
-        return view('admin.facilities.create', compact('setting'));
+        $rooms = Room::orderBy('name')->get();
+        return view('admin.facilities.create', compact('setting', 'rooms'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'room_id' => 'required|exists:rooms,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2040',
         ]);
 
-        $data = $request->only(['name', 'description']);
+        $data = $request->only(['room_id', 'name', 'description']);
 
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('facilities', 'public');
@@ -47,18 +49,20 @@ class FacilityManagementController extends Controller
     public function edit(Facility $facility)
     {
         $setting = Setting::first();
-        return view('admin.facilities.edit', compact('facility', 'setting'));
+        $rooms = Room::orderBy('name')->get();
+        return view('admin.facilities.edit', compact('facility', 'setting', 'rooms'));
     }
 
     public function update(Request $request, Facility $facility)
     {
         $request->validate([
+            'room_id' => 'required|exists:rooms,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2040',
         ]);
 
-        $data = $request->only(['name', 'description']);
+        $data = $request->only(['room_id', 'name', 'description']);
 
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada

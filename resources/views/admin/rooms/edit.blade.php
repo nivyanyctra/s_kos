@@ -24,19 +24,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="facilities" class="form-label">Fasilitas</label>
-            <div class="form-check">
-                @foreach($facilities as $facility)
-                    <input class="form-check-input" type="checkbox" name="facilities[]" value="{{ $facility->id }}" id="facility{{ $facility->id }}"
-                    {{ in_array($facility->id, old('facilities', $room->facilities->pluck('id')->toArray())) ? 'checked' : '' }}>
-                    <label class="form-check-label" for="facility{{ $facility->id }}">
-                        {{ $facility->name }}
-                    </label><br>
-                @endforeach
-            </div>
-        </div>
-
-        <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select name="status" id="status" class="form-select" required>
                 <option value="available" {{ old('status', $room->status) == 'available' ? 'selected' : '' }}>Tersedia</option>

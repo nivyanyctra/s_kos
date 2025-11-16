@@ -21,8 +21,7 @@ class RoomManagementController extends Controller
     public function create()
     {
         $setting = Setting::first();
-        $facilities = Facility::all();
-        return view('admin.rooms.create', compact('setting', 'facilities'));
+        return view('admin.rooms.create', compact('setting'));
     }
 
     public function store(Request $request)
@@ -31,8 +30,6 @@ class RoomManagementController extends Controller
             'name' => 'required|unique:rooms',
             'price' => 'required|integer',
             'size' => 'required|string',
-            'facilities' => 'nullable|array',
-            'facilities.*' => 'exists:facilities,id',
             'status' => 'required|in:available,occupied,maintenance',
             'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
@@ -45,13 +42,6 @@ class RoomManagementController extends Controller
         }
 
         $room = Room::create($data);
-        // Attach room facilities
-        foreach ($request->facilities ?? [] as $facilityId) {
-            RoomFacility::create([
-                'room_id' => $room->id,
-                'facility_id' => $facilityId,
-            ]);
-        }
         return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil ditambahkan!');
     }
 
@@ -59,8 +49,7 @@ class RoomManagementController extends Controller
     {
         $setting = Setting::first();
         $room = Room::findOrFail($id);
-        $facilities = Facility::all();
-        return view('admin.rooms.edit', compact('room', 'setting', 'facilities'));
+        return view('admin.rooms.edit', compact('room', 'setting'));
     }
 
     public function update(Request $request, $id)
@@ -71,8 +60,6 @@ class RoomManagementController extends Controller
             'name' => 'required|unique:rooms,name,' . $room->id,
             'price' => 'required|integer',
             'size' => 'required|string',
-            'facilities' => 'nullable|array',
-            'facilities.*' => 'exists:facilities,id',
             'status' => 'required|in:available,occupied,maintenance',
             'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
@@ -85,14 +72,6 @@ class RoomManagementController extends Controller
         }
 
         $room->update($data);
-        // Update room facilities
-        RoomFacility::where('room_id', $room->id)->delete();
-        foreach ($request->facilities ?? [] as $facilityId) {
-            RoomFacility::create([
-                'room_id' => $room->id,
-                'facility_id' => $facilityId,
-            ]);
-        }
         return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil diperbarui!');
     }
 

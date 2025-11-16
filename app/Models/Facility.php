@@ -10,13 +10,14 @@ class Facility extends Model
     use HasFactory;
 
     protected $fillable = [
+        'room_id',
         'name',
         'description',
         'image_path',
     ];
 
-    public function rooms()
+    public function room()
     {
-        return $this->belongsToMany(Room::class, 'room_facilities');
+        return $this->belongsTo(Room::class, 'room_id');
     }
 }

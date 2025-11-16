@@ -20,7 +20,8 @@ class RoomManagementController extends Controller
     // 🔹 Tampilkan form tambah kamar
     public function create()
     {
-        return view('admin.rooms.create');
+        $setting = Setting::first();
+        return view('admin.rooms.create', compact('setting'));
     }
 
     // 🔹 Simpan data kamar baru
@@ -48,8 +49,9 @@ class RoomManagementController extends Controller
     // 🔹 Tampilkan form edit kamar
     public function edit($id)
     {
+        $setting = Setting::first();
         $room = Room::findOrFail($id);
-        return view('admin.rooms.edit', compact('room'));
+        return view('admin.rooms.edit', compact('room', 'setting'));
     }
 
     // 🔹 Update data kamar

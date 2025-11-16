@@ -86,9 +86,9 @@
                                     <div class="d-flex align-items-center text-muted mb-3">
                                         <i class="bi bi-rulers me-2"></i>
                                         <span>{{ $room->size }} m²</span>
-                                        <span class="mx-2">•</span>
+                                        {{-- <span class="mx-2">•</span>
                                         <i class="bi bi-people me-2"></i>
-                                        <span>{{ $room->max_occupancy }} persons</span>
+                                        <span>{{ $room->max_occupancy }} persons</span> --}}
                                     </div>
 
                                     <p class="card-text text-muted mb-4"

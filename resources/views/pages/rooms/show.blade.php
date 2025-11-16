@@ -46,23 +46,23 @@
                 </div>
 
                 <!-- Facilities Grid -->
-                {{-- <div class="row row-cols-2 row-cols-md-3 g-3 mt-4">
+                <div class="row row-cols-2 row-cols-md-3 g-3 mt-4">
                     @foreach ($room->facilities as $facility)
                         <div class="col">
-                            <div class="d-flex align-items-center p-3 rounded-3 bg-light">
-                                <div class="me-3">
-                                    <i class="bi bi-{{ $facility->icon ?? 'check2-circle' }} fs-3 text-primary"></i>
+                            <div class="card border-0 shadow-sm h-100 related-room-card overflow-hidden">
+                                <div class="position-relative">
+                                    <img src="{{ $facility->image_path ? asset('storage/' . $facility->image_path) : asset('images/facility-placeholder.jpg') }}"
+                                        class="card-img-top" alt="{{ $facility->name }}"
+                                        style="height: 200px; object-fit: cover;">
                                 </div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold">{{ $facility->name }}</h6>
-                                    @if ($facility->description)
-                                        <small class="text-muted">{{ Str::limit($facility->description, 20) }}</small>
-                                    @endif
+                                <div class="card-body p-3">
+                                    <h5 class="card-title fw-bold">{{ $facility->name }}</h5>
+                                    <p class="card-text text-muted mb-3">{{ Str::limit($facility->description, 50) }}</p>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-                </div> --}}
+                </div>
             </div>
 
             <!-- Details & Booking Section -->
@@ -74,7 +74,7 @@
                             <div>
                                 <h1 class="h2 fw-bold mb-1">{{ $room->name }}</h1>
                                 <p class="text-muted mb-0">
-                                    <i class="bi bi-geo-alt me-1"></i> {{ $room->address ?? 'Jl. Contoh No. 123, Kota' }}
+                                    <i class="bi bi-geo-alt me-1"></i> {{ $setting->address ?? 'Jl. Contoh No. 123, Kota' }}
                                 </p>
                             </div>
                             <span class="display-6 fw-bold text-primary">
@@ -87,10 +87,6 @@
                             <div class="me-4">
                                 <i class="bi bi-rulers fs-4 text-primary"></i>
                                 <span class="fw-bold ms-2">{{ $room->size }} m²</span>
-                            </div>
-                            <div>
-                                <i class="bi bi-people fs-4 text-primary"></i>
-                                <span class="fw-bold ms-2">{{ $room->max_occupancy }} persons</span>
                             </div>
                         </div>
 
@@ -113,9 +109,9 @@
                                 </button>
                             @endif
 
-                            <button class="btn btn-outline-primary py-3 fs-5 rounded-3 fw-bold">
+                            {{-- <button class="btn btn-outline-primary py-3 fs-5 rounded-3 fw-bold">
                                 <i class="bi bi-chat-left-text me-2"></i> Contact Owner
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -127,15 +123,10 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="ratio ratio-16x9">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.487376245187!2d106.82512597474575!3d-6.208763393728192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3bc8ab8e73f%3A0x4c5d30c9b3b5f7e1!2sMonumen%20Nasional!5e0!3m2!1sen!2sid!4v1699596506103!5m2!1sen!2sid"
-                                width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
+                            {!! $setting->location_map !!}
                         </div>
                         <div class="p-3">
-                            <p class="mb-1 fw-bold">{{ $room->address ?? 'Jl. Contoh No. 123' }}</p>
-                            <p class="text-muted mb-0">Kota, Provinsi 12345</p>
+                            <p class="mb-1 fw-bold">{{ $setting->address }}</p>
                         </div>
                     </div>
                 </div>
@@ -148,7 +139,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach ($relatedRooms as $room)
                     <div class="col">
-                        <a href="{{ route('rooms.show', $room->id) }}" class="text-decoration-none">
+                        <a href="{{ route('rooms.show', $room->name) }}" class="text-decoration-none">
                             <div class="card border-0 shadow-sm h-100 related-room-card overflow-hidden">
                                 <div class="position-relative">
                                     <img src="{{ $room->image_path ? asset('storage/' . $room->image_path) : asset('images/room-placeholder.jpg') }}"

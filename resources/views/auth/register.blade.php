@@ -68,7 +68,7 @@
 
                         <hr>
                         <p class="text-center mb-0">
-                            Sudah punya akun? <a href="{{ route('auth.login') }}">Masuk</a>
+                            Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
                         </p>
                     </div>
                 </div>

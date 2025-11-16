@@ -15,11 +15,11 @@ Route::get('/rooms/detail/{name}', [RoomController::class, 'show'])->name('rooms
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
-Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.post')->middleware('guest');
-Route::post('/register', [AuthController::class, 'store'])->name('auth.register.post')->middleware('guest');
-Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('auth');
+Route::post('/register', [AuthController::class, 'store'])->name('register.store');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');

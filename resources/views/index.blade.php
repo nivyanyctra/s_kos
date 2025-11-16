@@ -53,7 +53,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach ($featuredRooms as $room)
                     <div class="col" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                        <a href="{{ route('rooms.show', $room->id) }}" class="text-decoration-none">
+                        <a href="{{ route('rooms.show', $room->name) }}" class="text-decoration-none">
                             <div class="card border-0 shadow-sm h-100 room-card overflow-hidden rounded-4">
                                 <div class="position-relative">
                                     <img src="{{ $room->image_path ? asset('storage/' . $room->image_path) : asset('images/room-placeholder.jpg') }}"
@@ -68,11 +68,11 @@
                                         {{ ucfirst($room->status) }}
                                     </span>
 
-                                    @if ($room->is_featured)
+                                    {{-- @if ($room->is_featured)
                                         <span class="position-absolute top-0 start-0 m-3 badge bg-primary rounded-pill">
                                             <i class="bi bi-star-fill me-1"></i>Featured
                                         </span>
-                                    @endif
+                                    @endif --}}
                                 </div>
 
                                 <div class="card-body p-4">
@@ -190,7 +190,7 @@
                 <div class="col-lg-10">
                     <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner rounded-4 shadow">
-                            @foreach ([['name' => 'Rina Permata', 'role' => 'Student @ UI', 'text' => 'Living at KostKita has been a game-changer for my studies. The quiet study areas and fast internet helped me maintain my GPA while enjoying a vibrant community.', 'img' => 'tenant-1.jpg'], ['name' => 'Ahmad Fauzi', 'role' => 'Software Engineer', 'text' => 'As a remote worker, I need reliable facilities. KostKita\'s co-working space, backup power, and high-speed internet make it the perfect place to live and work.', 'img' => 'tenant-2.jpg'], ['name' => 'Maya Sari', 'role' => 'Medical Intern', 'text' => 'The 24/7 security and cleanliness standards give me peace of mind after long hospital shifts. The community events also helped me make friends in a new city.', 'img' => 'tenant-3.jpg']] as $index => $testimonial)
+                            @foreach ([['name' => 'Rina Permata', 'role' => 'Student @ UI', 'text' => 'Living at {{ $setting->name }} has been a game-changer for my studies. The quiet study areas and fast internet helped me maintain my GPA while enjoying a vibrant community.', 'img' => 'tenant-1.jpg'], ['name' => 'Ahmad Fauzi', 'role' => 'Software Engineer', 'text' => 'As a remote worker, I need reliable facilities. {{ $setting->name }}\'s co-working space, backup power, and high-speed internet make it the perfect place to live and work.', 'img' => 'tenant-2.jpg'], ['name' => 'Maya Sari', 'role' => 'Medical Intern', 'text' => 'The 24/7 security and cleanliness standards give me peace of mind after long hospital shifts. The community events also helped me make friends in a new city.', 'img' => 'tenant-3.jpg']] as $index => $testimonial)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }} bg-white p-5">
                                     <div class="row align-items-center">
                                         <div class="col-md-4 mb-4 mb-md-0">
@@ -268,7 +268,7 @@
                             <div class="mb-4" data-aos="fade-right">
                                 <h2 class="fw-bold mb-3 display-5">Ready to Find <br>Your New Home?</h2>
                                 <p class="lead opacity-90 mb-0">
-                                    Book a free tour today and experience KostKita for yourself
+                                    Book a free tour today and experience {{ $setting->name }} for yourself
                                 </p>
                             </div>
 
@@ -280,18 +280,7 @@
                                     </div>
                                     <div>
                                         <p class="mb-0 opacity-75">Visit Us</p>
-                                        <h5 class="mb-0 fw-bold">Jl. Sudirman No. 123</h5>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex mb-3">
-                                    <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                                        style="width: 50px; height: 50px;">
-                                        <i class="bi bi-telephone fs-3"></i>
-                                    </div>
-                                    <div>
-                                        <p class="mb-0 opacity-75">Call Us</p>
-                                        <h5 class="mb-0 fw-bold">+62 21 1234 5678</h5>
+                                        <h5 class="mb-0 fw-bold">{{ $setting->address }}</h5>
                                     </div>
                                 </div>
 
@@ -302,7 +291,7 @@
                                     </div>
                                     <div>
                                         <p class="mb-0 opacity-75">WhatsApp</p>
-                                        <h5 class="mb-0 fw-bold">+62 812 3456 7890</h5>
+                                        <h5 class="mb-0 fw-bold">{{ $setting->phone }}</h5>
                                     </div>
                                 </div>
                             </div>

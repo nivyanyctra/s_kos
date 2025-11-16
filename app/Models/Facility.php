@@ -14,4 +14,9 @@ class Facility extends Model
         'description',
         'image_path',
     ];
+
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class, 'room_facilities');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use App\Models\Setting;
 use App\Models\Facility;
+use App\Models\RoomFacility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,20 +18,21 @@ class RoomManagementController extends Controller
         return view('admin.rooms.index', compact('rooms','setting'));
     }
 
-    // 🔹 Tampilkan form tambah kamar
     public function create()
     {
         $setting = Setting::first();
-        return view('admin.rooms.create', compact('setting'));
+        $facilities = Facility::all();
+        return view('admin.rooms.create', compact('setting', 'facilities'));
     }
 
-    // 🔹 Simpan data kamar baru
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:rooms',
             'price' => 'required|integer',
             'size' => 'required|string',
+            'facilities' => 'nullable|array',
+            'facilities.*' => 'exists:facilities,id',
             'status' => 'required|in:available,occupied,maintenance',
             'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
@@ -42,19 +44,25 @@ class RoomManagementController extends Controller
             $data['image_path'] = $request->file('image')->store('rooms', 'public');
         }
 
-        Room::create($data);
+        $room = Room::create($data);
+        // Attach room facilities
+        foreach ($request->facilities ?? [] as $facilityId) {
+            RoomFacility::create([
+                'room_id' => $room->id,
+                'facility_id' => $facilityId,
+            ]);
+        }
         return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil ditambahkan!');
     }
 
-    // 🔹 Tampilkan form edit kamar
     public function edit($id)
     {
         $setting = Setting::first();
         $room = Room::findOrFail($id);
-        return view('admin.rooms.edit', compact('room', 'setting'));
+        $facilities = Facility::all();
+        return view('admin.rooms.edit', compact('room', 'setting', 'facilities'));
     }
 
-    // 🔹 Update data kamar
     public function update(Request $request, $id)
     {
         $room = Room::findOrFail($id);
@@ -63,6 +71,8 @@ class RoomManagementController extends Controller
             'name' => 'required|unique:rooms,name,' . $room->id,
             'price' => 'required|integer',
             'size' => 'required|string',
+            'facilities' => 'nullable|array',
+            'facilities.*' => 'exists:facilities,id',
             'status' => 'required|in:available,occupied,maintenance',
             'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
@@ -75,6 +85,14 @@ class RoomManagementController extends Controller
         }
 
         $room->update($data);
+        // Update room facilities
+        RoomFacility::where('room_id', $room->id)->delete();
+        foreach ($request->facilities ?? [] as $facilityId) {
+            RoomFacility::create([
+                'room_id' => $room->id,
+                'facility_id' => $facilityId,
+            ]);
+        }
         return redirect()->route('admin.rooms.index')->with('success', 'Data kamar berhasil diperbarui!');
     }
 

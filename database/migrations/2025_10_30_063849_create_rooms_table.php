@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('price')->default(0);
             $table->string('size');
             $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
-            $table->string('description');
-            $table->string('image_path');
+            $table->text('description')->default('Tidak ada deskripsi');
+            $table->string('cover_image');
             $table->timestamps();
         });
     }

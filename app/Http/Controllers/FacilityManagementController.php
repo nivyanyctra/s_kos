@@ -29,11 +29,12 @@ class FacilityManagementController extends Controller
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'name' => 'required|string|max:255',
+            'categories' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2040',
         ]);
 
-        $data = $request->only(['room_id', 'name', 'description']);
+        $data = $request->only(['room_id', 'name', 'categories', 'description']);
 
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('facilities', 'public');
@@ -58,11 +59,12 @@ class FacilityManagementController extends Controller
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'name' => 'required|string|max:255',
+            'categories' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2040',
         ]);
 
-        $data = $request->only(['room_id', 'name', 'description']);
+        $data = $request->only(['room_id', 'name', 'categories', 'description']);
 
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada

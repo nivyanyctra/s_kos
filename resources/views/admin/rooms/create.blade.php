@@ -41,8 +41,10 @@
                 <input type="file" name="image" class="form-control" accept="image/*">
             </div>
 
-            <button class="btn btn-primary">Perbarui</button>
-            <a href="{{ route('admin.rooms.index') }}" class="btn btn-secondary">Batal</a>
+            <div class="d-grid gap-2">
+                <button class="btn btn-success">Simpan</button>
+                <a href="{{ route('admin.rooms.index') }}" class="btn btn-secondary">Batal</a>
+            </div>
         </form>
     </div>
 @endsection

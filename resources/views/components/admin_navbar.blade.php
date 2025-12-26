@@ -25,10 +25,10 @@
                                 <a class="nav-link nav-btn {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}"
                                     href="{{ route('admin.settings.edit') }}">Setting</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link nav-btn {{ request()->routeIs('*.rooms') ? 'active' : '' }}"
                                     href="{{ route('admin.rooms.index') }}">RoomsManagement</a>
-                            </li>
+                            </li> --}}
                         @endauth
                     </ul>
 

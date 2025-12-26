@@ -43,14 +43,16 @@
                         <p class="card-text flex-grow-1">{{ Str::limit($room->description, 100) }}</p>
 
                         <div class="mt-auto d-flex">
-                            <a href="{{ route('admin.rooms.edit', $room->id) }}" class="btn btn-warning btn-sm me-1">Edit</a>
-                            <form id="delete-form-{{ $room->id }}" action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-danger btn-sm me-2" onclick="confirmDelete({{ $room->id }})">
-                                    Hapus
-                                </button>
-                            </form>
+                            <div class="d-flex flex-column gap-2 w-100">
+                                <a href="{{ route('admin.rooms.edit', $room->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form id="delete-form-{{ $room->id }}" action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm w-100" onclick="confirmDelete({{ $room->id }})">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

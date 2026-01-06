@@ -28,7 +28,15 @@ class FrequentlyAskedQuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+        ]);
+        $data = $request->only(['question', 'answer']);
+        FrequentlyAskedQuestion::create($data);
+        return redirect()
+            ->back()
+            ->with('success', 'Frequently Asked Question berhasil ditambahkan.');
     }
 
     /**
@@ -52,7 +60,15 @@ class FrequentlyAskedQuestionController extends Controller
      */
     public function update(Request $request, FrequentlyAskedQuestion $frequentlyAskedQuestion)
     {
-        //
+        $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+        ]);
+        $data = $request->only(['question', 'answer']);
+        $frequentlyAskedQuestion->update($data);
+        return redirect()
+            ->back()
+            ->with('success', 'Frequently Asked Question berhasil diperbarui.');
     }
 
     /**
@@ -60,6 +76,9 @@ class FrequentlyAskedQuestionController extends Controller
      */
     public function destroy(FrequentlyAskedQuestion $frequentlyAskedQuestion)
     {
-        //
+        $frequentlyAskedQuestion->delete();
+        return redirect()
+            ->back()
+            ->with('success', 'Frequently Asked Question berhasil dihapus.');
     }
 }

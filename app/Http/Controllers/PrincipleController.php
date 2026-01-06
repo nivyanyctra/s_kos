@@ -28,7 +28,15 @@ class PrincipleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+$request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+        ]);
+        $data = $request->only(['question', 'answer']);
+        FrequentlyAskedQuestion::create($data);
+        return redirect()
+            ->back()
+            ->with('success', 'Frequently Asked Question berhasil ditambahkan.');
     }
 
     /**

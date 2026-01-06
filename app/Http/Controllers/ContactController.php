@@ -28,7 +28,25 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'address' => 'required|string|max:255',
+            'business_hours' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:255',
+            'instagram' => 'nullable|string|max:255',
+            'facebook' => 'nullable|string|max:255',
+            'x' => 'nullable|string|max:255',
+            'youtube' => 'nullable|string|max:255',
+            'map_embed' => 'required|string',
+        ]);
+
+        $data = $request->only(['address', 'business_hours', 'email', 'phone', 'instagram', 'facebook', 'x', 'youtube', 'map_embed']);
+
+        Contact::create($data);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Contact berhasil ditambahkan.');
     }
 
     /**
@@ -52,7 +70,25 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        //
+        $request->validate([
+            'address' => 'required|string|max:255',
+            'business_hours' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:255',
+            'instagram' => 'nullable|string|max:255',
+            'facebook' => 'nullable|string|max:255',
+            'x' => 'nullable|string|max:255',
+            'youtube' => 'nullable|string|max:255',
+            'map_embed' => 'required|string',
+        ]);
+
+        $data = $request->only(['address', 'business_hours', 'email', 'phone', 'instagram', 'facebook', 'x', 'youtube', 'map_embed']);
+
+        $contact->update($data);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Contact berhasil diperbarui.');
     }
 
     /**
@@ -60,6 +96,10 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Contact berhasil dihapus.');
     }
 }

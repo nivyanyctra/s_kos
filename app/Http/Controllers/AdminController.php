@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use App\Models\User;
-use App\Models\Setting;
 use App\Models\Facility;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -18,8 +18,8 @@ class AdminController extends Controller
         $available = Room::where('status', 'available')->count();
         $occupied = Room::where('status', 'occupied')->count();
         $maintenance = Room::where('status', 'maintenance')->count();
-        $setting = Setting::first();
+        $profile = Profile::first();
 
-        return view('admin.dashboard', compact('rooms', 'facilities', 'users', 'available', 'occupied', 'maintenance', 'setting'));
+        return view('admin.dashboard', compact('rooms', 'facilities', 'users', 'available', 'occupied', 'maintenance', 'profile'));
     }
 }

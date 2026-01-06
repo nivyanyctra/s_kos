@@ -28,7 +28,21 @@ class ContactMessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        $data = $request->only(['name', 'email', 'phone', 'subject', 'message']);
+
+        ContactMessage::create($data);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Pesan kontak berhasil dikirim.');
     }
 
     /**
@@ -52,7 +66,20 @@ class ContactMessageController extends Controller
      */
     public function update(Request $request, ContactMessage $contactMessage)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        $data = $request->only(['name', 'email', 'phone', 'subject', 'message']);
+
+        $contactMessage->update($data);
+        return redirect()
+            ->back()
+            ->with('success', 'Pesan kontak berhasil diperbarui.');
     }
 
     /**
@@ -60,6 +87,10 @@ class ContactMessageController extends Controller
      */
     public function destroy(ContactMessage $contactMessage)
     {
-        //
+        $contactMessage->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Pesan kontak berhasil dihapus.');
     }
 }

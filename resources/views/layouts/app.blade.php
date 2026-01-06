@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $setting->name }}</title>
+    <title>{{ $profile->name }}</title>
 
-    <link rel="shortcut icon" href="{{ Storage::url($setting->logo_path) }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ Storage::url($profile->logo_path) }}" type="image/x-icon">
 
     <!-- App styles (use mix/vite/asset according to your setup) -->
     @stack('styles')
@@ -34,7 +34,7 @@
     </main>
 
     <footer class="text-center py-3">
-        <small>&copy; {{ date('Y') }} {{ $setting->name }}</small>
+        <small>&copy; {{ date('Y') }} {{ $profile->name }}</small>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>

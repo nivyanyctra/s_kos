@@ -15,7 +15,7 @@ class Room extends Model
         'size',
         'status',
         'description',
-        'image_path',
+        'cover_image',
     ];
 
     public function facilities()

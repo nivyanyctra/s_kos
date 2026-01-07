@@ -43,48 +43,77 @@
                         </h2>
                     </div>
                     <div class="card-body p-5">
-                        <form id="contactForm">
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        <form id="contactForm" action="{{ route('contact.store') }}" method="POST">
+                            @csrf
                             <div class="mb-4">
                                 <label for="name" class="form-label fw-bold">Full Name</label>
-                                <input type="text" class="form-control form-control-lg rounded-3" id="name"
-                                    placeholder="John Doe" required>
-                                <div class="invalid-feedback">Please enter your name</div>
+                                <input type="text" class="form-control form-control-lg rounded-3 @error('name') is-invalid @enderror" id="name" name="name"
+                                    placeholder="John Doe" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="email" class="form-label fw-bold">Email Address</label>
-                                <input type="email" class="form-control form-control-lg rounded-3" id="email"
-                                    placeholder="you@example.com" required>
-                                <div class="invalid-feedback">Please enter a valid email address</div>
+                                <input type="email" class="form-control form-control-lg rounded-3 @error('email') is-invalid @enderror" id="email" name="email"
+                                    placeholder="you@example.com" value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="phone" class="form-label fw-bold">Phone Number</label>
                                 <div class="input-group">
                                     <span class="input-group-text rounded-start-3 bg-light">+62</span>
-                                    <input type="tel" class="form-control form-control-lg rounded-end-3" id="phone"
-                                        placeholder="812-3456-7890" required>
+                                    <input type="tel" class="form-control form-control-lg rounded-end-3 @error('phone') is-invalid @enderror" id="phone" name="phone"
+                                        placeholder="812-3456-7890" value="{{ old('phone') }}" required>
+                                    @error('phone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="invalid-feedback">Please enter a valid phone number</div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="subject" class="form-label fw-bold">Subject</label>
-                                <select class="form-select form-select-lg rounded-3" id="subject" required>
+                                <select class="form-select form-select-lg rounded-3 @error('subject') is-invalid @enderror" id="subject" name="subject" required>
                                     <option value="" selected disabled>Select a subject</option>
-                                    <option value="booking">Room Booking Inquiry</option>
-                                    <option value="maintenance">Maintenance Request</option>
-                                    <option value="complaint">Complaint/Suggestion</option>
-                                    <option value="general">General Question</option>
+                                    <option value="booking" {{ old('subject') == 'booking' ? 'selected' : '' }}>Room Booking Inquiry</option>
+                                    <option value="maintenance" {{ old('subject') == 'maintenance' ? 'selected' : '' }}>Maintenance Request</option>
+                                    <option value="complaint" {{ old('subject') == 'complaint' ? 'selected' : '' }}>Complaint/Suggestion</option>
+                                    <option value="general" {{ old('subject') == 'general' ? 'selected' : '' }}>General Question</option>
                                 </select>
-                                <div class="invalid-feedback">Please select a subject</div>
+                                @error('subject')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="message" class="form-label fw-bold">Message</label>
-                                <textarea class="form-control form-control-lg rounded-3" id="message" rows="5"
-                                    placeholder="How can we help you today?" required></textarea>
-                                <div class="invalid-feedback">Please enter your message</div>
+                                <textarea class="form-control form-control-lg rounded-3 @error('message') is-invalid @enderror" id="message" name="message" rows="5"
+                                    placeholder="How can we help you today?" required>{{ old('message') }}</textarea>
+                                @error('message')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4 form-check">
@@ -103,15 +132,6 @@
                     </div>
                 </div>
 
-                <!-- Response Message -->
-                <div id="formResponse" class="alert alert-success mt-4 d-none rounded-4 shadow-sm">
-                    <h5 class="alert-heading fw-bold mb-2">
-                        <i class="bi bi-check-circle me-2"></i>Thank you for contacting us!
-                    </h5>
-                    <p class="mb-0">We've received your message and will get back to you within 24 hours. For urgent
-                        inquiries, please call us directly at <a href="tel:{{ $setting->phone }}"
-                            class="alert-link">{{ $setting->phone }}</a>.</p>
-                </div>
             </div>
 
             <!-- Contact Information -->
@@ -341,50 +361,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const contactForm = document.getElementById('contactForm');
-            const formResponse = document.getElementById('formResponse');
 
             if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    // Simple validation
-                    let isValid = true;
-                    const inputs = contactForm.querySelectorAll(
-                        'input[required], select[required], textarea[required]');
-
-                    inputs.forEach(input => {
-                        if (!input.value.trim()) {
-                            isValid = false;
-                            input.classList.add('is-invalid');
-                        } else {
-                            input.classList.remove('is-invalid');
-                        }
-                    });
-
-                    const privacyCheck = document.getElementById('privacyCheck');
-                    if (!privacyCheck.checked) {
-                        isValid = false;
-                        privacyCheck.classList.add('is-invalid');
-                    } else {
-                        privacyCheck.classList.remove('is-invalid');
-                    }
-
-                    if (isValid) {
-                        // In a real application, you would submit the form data to your server
-                        contactForm.reset();
-                        formResponse.classList.remove('d-none');
-                        contactForm.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-
-                        // Hide response after 10 seconds
-                        setTimeout(() => {
-                            formResponse.classList.add('d-none');
-                        }, 10000);
-                    }
-                });
-
                 // Real-time validation
+                const inputs = contactForm.querySelectorAll('input[required], select[required], textarea[required]');
                 inputs.forEach(input => {
                     input.addEventListener('input', function() {
                         if (this.value.trim()) {
@@ -393,11 +373,14 @@
                     });
                 });
 
-                privacyCheck.addEventListener('change', function() {
-                    if (this.checked) {
-                        this.classList.remove('is-invalid');
-                    }
-                });
+                const privacyCheck = document.getElementById('privacyCheck');
+                if (privacyCheck) {
+                    privacyCheck.addEventListener('change', function() {
+                        if (this.checked) {
+                            this.classList.remove('is-invalid');
+                        }
+                    });
+                }
             }
         });
     </script>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactMessage;
+use App\Models\Profile;
 use Illuminate\Http\Request;
+use App\Models\ContactMessage;
 
 class ContactMessageController extends Controller
 {
@@ -12,7 +13,9 @@ class ContactMessageController extends Controller
      */
     public function index()
     {
-        //
+        $profile = Profile::first();
+        $messages = ContactMessage::latest()->paginate(10);
+        return view('admin.messages.index', compact('messages', 'profile'));
     }
 
     /**
@@ -50,7 +53,7 @@ class ContactMessageController extends Controller
      */
     public function show(ContactMessage $contactMessage)
     {
-        //
+        return view('admin.messages.show', compact('contactMessage'));
     }
 
     /**

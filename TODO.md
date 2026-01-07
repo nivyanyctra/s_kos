@@ -1,0 +1,2 @@
+-   [x] Fix store method: remove 'is_active' from validation, update condition to use $request->boolean('is_active'), change 'is_active' value to $request->boolean('is_active')
+-   [ ] Fix update method: remove 'is_active' from validation, update condition to use $request->boolean('is_active'), change 'is_active' value to $request->boolean('is_active')

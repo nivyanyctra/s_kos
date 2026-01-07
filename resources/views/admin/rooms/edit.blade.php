@@ -13,6 +13,20 @@
                 <input type="text" name="name" id="name" class="form-control" required
                     value="{{ old('name', $room->name) }}">
             </div>
+            <input type="hidden" name="slug" id="slug">
+
+            <script>
+                document.getElementById('name').addEventListener('input', function() {
+                    const slug = this.value
+                        .toLowerCase()
+                        .trim()
+                        .replace(/\s+/g, '-')
+                        .replace(/-+/g, '-')
+                    .replace(/[^a-z0-9\s-]/g, '');
+
+                    document.getElementById('slug').value = slug;
+                });
+            </script>
 
             <div class="mb-3">
                 <label for="price" class="form-label">Harga (Rp)</label>
@@ -45,10 +59,10 @@
 
             <div class="mb-3">
                 <label>Foto Kamar</label><br>
-                @if ($room->image_path)
-                    <img src="{{ asset('storage/' . $room->image_path) }}" width="120" class="rounded mb-2"><br>
+                @if ($room->cover_image)
+                    <img src="{{ asset('storage/' . $room->cover_image) }}" width="120" class="rounded mb-2"><br>
                 @endif
-                <input type="file" name="image" class="form-control" accept="image/*">
+                <input type="file" name="cover_image" class="form-control" accept="image/*">
             </div>
 
             <div class="d-grid gap-2">

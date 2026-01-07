@@ -32,7 +32,7 @@
                             @endforeach
                         </div>
                     </div> --}}
-                    <img src="{{ $room->image_path ? asset('storage/' . $room->image_path) : asset('images/room-placeholder.jpg') }}"
+                    <img src="{{ $room->cover_image ? asset('storage/' . $room->cover_image) : asset('images/room-placeholder.jpg') }}"
                         class="d-block w-100" alt="{{ $room->name }}" style="height: 450px; object-fit: cover;">
 
                     <!-- Status Badge Overlay -->
@@ -51,7 +51,7 @@
                         <div class="col">
                             <div class="card border-0 shadow-sm h-100 related-room-card overflow-hidden">
                                 <div class="position-relative">
-                                    <img src="{{ $facility->image_path ? asset('storage/' . $facility->image_path) : asset('images/facility-placeholder.jpg') }}"
+                                    <img src="{{ $facility->cover_image ? asset('storage/' . $facility->cover_image) : asset('images/facility-placeholder.jpg') }}"
                                         class="card-img-top" alt="{{ $facility->name }}"
                                         style="height: 200px; object-fit: cover;">
                                 </div>
@@ -74,7 +74,7 @@
                             <div>
                                 <h1 class="h2 fw-bold mb-1">{{ $room->name }}</h1>
                                 <p class="text-muted mb-0">
-                                    <i class="bi bi-geo-alt me-1"></i> {{ $setting->address ?? 'Jl. Contoh No. 123, Kota' }}
+                                    <i class="bi bi-geo-alt me-1"></i> {{ $profile->address ?? 'Jl. Contoh No. 123, Kota' }}
                                 </p>
                             </div>
                             <span class="display-6 fw-bold text-primary">
@@ -123,10 +123,10 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="ratio ratio-16x9">
-                            {!! $setting->location_map !!}
+                            {!! $profile->location_map !!}
                         </div>
                         <div class="p-3">
-                            <p class="mb-1 fw-bold">{{ $setting->address }}</p>
+                            <p class="mb-1 fw-bold">{{ $profile->address }}</p>
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                         <a href="{{ route('rooms.show', $room->name) }}" class="text-decoration-none">
                             <div class="card border-0 shadow-sm h-100 related-room-card overflow-hidden">
                                 <div class="position-relative">
-                                    <img src="{{ $room->image_path ? asset('storage/' . $room->image_path) : asset('images/room-placeholder.jpg') }}"
+                                    <img src="{{ $room->cover_image ? asset('storage/' . $room->cover_image) : asset('images/room-placeholder.jpg') }}"
                                         class="card-img-top" alt="{{ $room->name }}"
                                         style="height: 200px; object-fit: cover;">
 

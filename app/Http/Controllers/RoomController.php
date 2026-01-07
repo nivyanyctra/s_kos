@@ -15,9 +15,9 @@ class RoomController extends Controller
         return view('pages.rooms.index', compact('rooms','profile'));
     }
 
-    public function show($name)
+    public function show($slug)
     {
-        $room = Room::where('name', $name)->firstOrFail();
+        $room = Room::where('slug', $slug)->firstOrFail();
         $relatedRooms = Room::all();
         $profile = Profile::first();
         return view('pages.rooms.show', compact('room','profile', 'relatedRooms'));

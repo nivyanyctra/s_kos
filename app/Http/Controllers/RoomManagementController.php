@@ -29,6 +29,7 @@ class RoomManagementController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:rooms',
+            'slug' => 'required|unique:rooms',
             'price' => 'required|integer',
             'size' => 'required|string',
             'status' => 'required|in:available,occupied,maintenance',
@@ -37,7 +38,7 @@ class RoomManagementController extends Controller
             'media.*' => 'file|mimes:jpeg,png,jpg,mp4|max:20480',
         ]);
 
-        $data = $request->only(['name', 'price', 'size', 'status', 'description']);
+        $data = $request->only(['name','slug', 'price', 'size', 'status', 'description']);
 
         if ($request->hasFile('cover_image')) {
             $data['cover_image'] = $request->file('cover_image')->store('rooms', 'public');
@@ -73,6 +74,7 @@ class RoomManagementController extends Controller
 
         $request->validate([
             'name' => 'required|unique:rooms,name,' . $room->id,
+            'slug' => 'required|unique:rooms,slug,' . $room->id,
             'price' => 'required|integer',
             'size' => 'required|string',
             'status' => 'required|in:available,occupied,maintenance',
@@ -81,7 +83,7 @@ class RoomManagementController extends Controller
             'media.*' => 'file|mimes:jpeg,png,jpg,mp4|max:20480',
         ]);
 
-        $data = $request->only(['name', 'price', 'size', 'status', 'description']);
+        $data = $request->only(['name','slug', 'price', 'size', 'status', 'description']);
 
         if ($request->has('delete_media')) {
             foreach ($request->delete_media as $mediaId) {

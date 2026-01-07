@@ -34,8 +34,8 @@
         @forelse ($rooms as $room)
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
-                    @if ($room->image_path)
-                        <img src="{{ asset('storage/' . $room->image_path) }}" class="card-img-top" alt="{{ $room->name }}" style="height:200px; object-fit:cover;">
+                    @if ($room->cover_image)
+                        <img src="{{ asset('storage/' . $room->cover_image) }}" class="card-img-top" alt="{{ $room->name }}" style="height:200px; object-fit:cover;">
                     @endif
 
                     <div class="card-body d-flex flex-column">

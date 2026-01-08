@@ -65,7 +65,7 @@
 
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Deskripsi</label>
-                                                    <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $profile->description) }}</textarea>
+                                                    <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $principle->description) }}</textarea>
                                                     @error('description')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror

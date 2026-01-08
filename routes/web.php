@@ -34,8 +34,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
-    Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
-        Route::get('/', 'edit')->name('edit');
+    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', 'index')->name('index');
         Route::put('/update', 'update')->name('update');
     });
 
@@ -55,7 +55,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('faq', FrequentlyAskedQuestionController::class);
     Route::resource('principle', PrincipleController::class);
     Route::resource('privacy', PrivacyPolicyController::class);
-    Route::resource('profile', ProfileController::class);
     Route::resource('terms', TermsConditionController::class);
     Route::resource('testimonial', TestimonialController::class);
     Route::resource('why', WhyChooseUsController::class);

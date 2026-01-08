@@ -38,6 +38,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::put('/update', 'update')->name('update');
     });
+    Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('/update', 'update')->name('update');
+    });
 
     Route::controller(RoomManagementController::class)->prefix('rooms')->name('rooms.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -50,7 +54,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('facilities', FacilityManagementController::class);
     Route::resource('bookings', BookingController::class);
-    Route::resource('contact', ContactController::class);
     Route::resource('messages', ContactMessageController::class);
     Route::resource('faq', FrequentlyAskedQuestionController::class);
     Route::resource('principle', PrincipleController::class);

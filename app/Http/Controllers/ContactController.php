@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -12,7 +13,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        $profile = Profile::first();
+        $contact = Contact::first();
+        return view('admin.contacts.index', compact('contact', 'profile'));
     }
 
     /**
@@ -68,8 +71,9 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request)
     {
+        $contact = Contact::first();
         $request->validate([
             'address' => 'required|string|max:255',
             'business_hours' => 'required|string|max:255',

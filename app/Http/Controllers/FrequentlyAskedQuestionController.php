@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FrequentlyAskedQuestion;
 use Illuminate\Http\Request;
+use App\Models\Profile;
 
 class FrequentlyAskedQuestionController extends Controller
 {
@@ -12,7 +13,9 @@ class FrequentlyAskedQuestionController extends Controller
      */
     public function index()
     {
-        //
+        $profile = Profile::first();
+        $faq = FrequentlyAskedQuestion::all();
+        return view('admin.faqs.index', compact('profile', 'faq'));
     }
 
     /**
@@ -42,7 +45,7 @@ class FrequentlyAskedQuestionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FrequentlyAskedQuestion $frequentlyAskedQuestion)
+    public function show(FrequentlyAskedQuestion $faq)
     {
         //
     }
@@ -50,7 +53,7 @@ class FrequentlyAskedQuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FrequentlyAskedQuestion $frequentlyAskedQuestion)
+    public function edit(FrequentlyAskedQuestion $faq)
     {
         //
     }
@@ -58,14 +61,14 @@ class FrequentlyAskedQuestionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FrequentlyAskedQuestion $frequentlyAskedQuestion)
+    public function update(Request $request, FrequentlyAskedQuestion $faq)
     {
         $request->validate([
             'question' => 'required|string|max:255',
             'answer' => 'required|string',
         ]);
         $data = $request->only(['question', 'answer']);
-        $frequentlyAskedQuestion->update($data);
+        $faq->update($data);
         return redirect()
             ->back()
             ->with('success', 'Frequently Asked Question berhasil diperbarui.');
@@ -74,9 +77,9 @@ class FrequentlyAskedQuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FrequentlyAskedQuestion $frequentlyAskedQuestion)
+    public function destroy(FrequentlyAskedQuestion $faq)
     {
-        $frequentlyAskedQuestion->delete();
+        $faq->delete();
         return redirect()
             ->back()
             ->with('success', 'Frequently Asked Question berhasil dihapus.');

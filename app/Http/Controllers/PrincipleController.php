@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\Principle;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class PrincipleController extends Controller
      */
     public function index()
     {
-        //
+        $profile = Profile::first();
+        $principles = Principle::all();
+        return view('admin.principles.index', compact('profile', 'principles'));
     }
 
     /**
@@ -28,15 +31,16 @@ class PrincipleController extends Controller
      */
     public function store(Request $request)
     {
-$request->validate([
-            'question' => 'required|string|max:255',
-            'answer' => 'required|string',
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'icon' => 'required|string|max:255',
         ]);
-        $data = $request->only(['question', 'answer']);
-        FrequentlyAskedQuestion::create($data);
+        $data = $request->only(['title', 'description', 'icon']);
+        Principle::create($data);
         return redirect()
             ->back()
-            ->with('success', 'Frequently Asked Question berhasil ditambahkan.');
+            ->with('success', 'Principle berhasil ditambahkan.');
     }
 
     /**
@@ -60,7 +64,16 @@ $request->validate([
      */
     public function update(Request $request, Principle $principle)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'icon' => 'required|string|max:255',
+        ]);
+        $data = $request->only(['title', 'description', 'icon']);
+        $principle->update($data);
+        return redirect()
+            ->back()
+            ->with('success', 'Principle berhasil diperbarui.');
     }
 
     /**

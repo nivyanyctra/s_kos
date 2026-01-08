@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -12,7 +13,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        $profile = Profile::first();
+        return view('admin.profiles.index', compact('profile'));
     }
 
     /**
@@ -50,9 +52,41 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request)
     {
-        //
+        $profile = Profile::first();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'slogan' => 'required|string|max:255',
+            'description' => 'required|string',
+            'story' => 'required|string',
+            'logo_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'video_path' => 'nullable|mimes:mp4,avi,mov,wmv|max:10240',
+        ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('logo_path')) {
+            if ($profile->logo_path) {
+                Storage::disk('public')->delete($profile->logo_path);
+            }
+            $data['logo_path'] = $request->file('logo_path')->store('profiles', 'public');
+        }
+        if ($request->hasFile('photo_path')) {
+            if ($profile->photo_path) {
+                Storage::disk('public')->delete($profile->photo_path);
+            }
+            $data['photo_path'] = $request->file('photo_path')->store('profiles', 'public');
+        }
+        if ($request->hasFile('video_path')) {
+            if ($profile->video_path) {
+                Storage::disk('public')->delete($profile->video_path);
+            }
+            $data['video_path'] = $request->file('video_path')->store('profiles', 'public');
+        }
+        $profile->update($data);
+        return redirect()->route('admin.profile.index')->with('success', 'Profile updated successfully.');
     }
 
     /**

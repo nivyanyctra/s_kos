@@ -4,7 +4,7 @@
     <section class="position-relative vh-100 d-flex align-items-center overflow-hidden">
         <div class="position-absolute top-0 start-0 w-100 h-100">
             <video class="w-100 h-100 object-fit-cover" autoplay muted loop playsinline>
-                <source src="{{ asset('videos/kost-hero.mp4') }}" type="video/mp4">
+                <source src="{{ asset('videos/profile-video.mp4') }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>

@@ -31,7 +31,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('auth');
 Route::post('/register', [AuthController::class, 'store'])->name('register.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware('check.auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
     Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {

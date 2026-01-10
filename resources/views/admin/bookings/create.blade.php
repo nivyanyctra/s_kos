@@ -35,7 +35,7 @@
 
             <div class="mb-3">
                 <label for="room_id" class="form-label">Room</label>
-                <select name="room_id" id="room_id" class="form-select" required>
+                <select name="room_id" id="room_id" class="form-select room-select" required>
                     <option value="">Select Room</option>
                     @foreach ($rooms as $room)
                         <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
@@ -52,3 +52,14 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.room-select').select2({
+                placeholder: 'Search for a room...',
+                allowClear: true
+            });
+        });
+    </script>
+@endpush

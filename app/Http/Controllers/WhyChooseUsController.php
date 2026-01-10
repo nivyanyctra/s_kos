@@ -12,7 +12,8 @@ class WhyChooseUsController extends Controller
      */
     public function index()
     {
-        //
+        $whyChooseUs = WhyChooseUs::orderBy('created_at', 'desc')->get();
+        return view('admin.why.index', compact('whyChooseUs'));
     }
 
     /**
@@ -28,7 +29,17 @@ class WhyChooseUsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'icon' => 'required|string|max:255',
+        ]);
+
+        WhyChooseUs::create($request->only(['title', 'description', 'icon']));
+
+        return redirect()
+            ->route('admin.why.index')
+            ->with('success', 'Why Choose Us berhasil ditambahkan.');
     }
 
     /**
@@ -52,7 +63,17 @@ class WhyChooseUsController extends Controller
      */
     public function update(Request $request, WhyChooseUs $whyChooseUs)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'icon' => 'required|string|max:255',
+        ]);
+
+        $whyChooseUs->update($request->only(['title', 'description', 'icon']));
+
+        return redirect()
+            ->route('admin.why.index')
+            ->with('success', 'Why Choose Us berhasil diperbarui.');
     }
 
     /**
@@ -60,6 +81,10 @@ class WhyChooseUsController extends Controller
      */
     public function destroy(WhyChooseUs $whyChooseUs)
     {
-        //
+        $whyChooseUs->delete();
+
+        return redirect()
+            ->route('admin.why.index')
+            ->with('success', 'Why Choose Us berhasil dihapus.');
     }
 }

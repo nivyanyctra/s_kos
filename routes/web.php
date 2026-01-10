@@ -31,6 +31,8 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('auth');
 Route::post('/register', [AuthController::class, 'store'])->name('register.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::post('/bookings', [BookingController::class, 'storeCustomer'])->name('bookings.customer.store');
+
 Route::middleware('check.auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 

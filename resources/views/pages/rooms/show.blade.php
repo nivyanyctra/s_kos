@@ -183,28 +183,30 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <form>
+                    <form action="{{ route('bookings.customer.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="room_id" value="{{ $room->id }}">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Full Name</label>
-                            <input type="text" class="form-control form-control-lg rounded-3"
-                                placeholder="Enter your full name">
+                            <input type="text" name="name" class="form-control form-control-lg rounded-3"
+                                placeholder="Enter your full name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Phone Number</label>
-                            <input type="tel" class="form-control form-control-lg rounded-3"
-                                placeholder="0812-3456-7890">
+                            <input type="tel" name="phone" class="form-control form-control-lg rounded-3"
+                                placeholder="0812-3456-7890" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Email Address</label>
-                            <input type="email" class="form-control form-control-lg rounded-3"
-                                placeholder="you@example.com">
+                            <input type="email" name="email" class="form-control form-control-lg rounded-3"
+                                placeholder="you@example.com" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label fw-bold">Booking Duration</label>
-                            <select class="form-select form-select-lg rounded-3">
-                                <option selected>3 months</option>
-                                <option>6 months</option>
-                                <option>1 year</option>
+                            <select name="duration" class="form-select form-select-lg rounded-3" required>
+                                <option value="3 months">3 months</option>
+                                <option value="6 months">6 months</option>
+                                <option value="1 year">1 year</option>
                             </select>
                         </div>
                         <div class="form-check mb-4">

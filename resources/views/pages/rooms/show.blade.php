@@ -51,7 +51,7 @@
                         <div class="col">
                             <div class="card border-0 shadow-sm h-100 related-room-card overflow-hidden">
                                 <div class="position-relative">
-                                    <img src="{{ $facility->cover_image ? asset('storage/' . $facility->cover_image) : asset('images/facility-placeholder.jpg') }}"
+                                    <img src="{{ $facility->image_path ? asset('storage/' . $facility->image_path) : asset('images/facility-placeholder.jpg') }}"
                                         class="card-img-top" alt="{{ $facility->name }}"
                                         style="height: 200px; object-fit: cover;">
                                 </div>
@@ -74,7 +74,8 @@
                             <div>
                                 <h1 class="h2 fw-bold mb-1">{{ $room->name }}</h1>
                                 <p class="text-muted mb-0">
-                                    <i class="bi bi-geo-alt me-1"></i> {{ $profile->address ?? 'Jl. Contoh No. 123, Kota' }}
+                                    <i class="fa-solid fa-map me-1"></i>
+                                    <span title="{{ $contact->address ?? 'Jl. Contoh No. 123, Kota' }}">{{ Str::limit($contact->address ?? 'Jl. Contoh No. 123, Kota', 15) }}</span>
                                 </p>
                             </div>
                             <span class="display-6 fw-bold text-primary">
@@ -123,10 +124,10 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="ratio ratio-16x9">
-                            {!! $profile->location_map !!}
+                            {!! $contact->map_embed !!}
                         </div>
                         <div class="p-3">
-                            <p class="mb-1 fw-bold">{{ $profile->address }}</p>
+                            <p class="mb-1 fw-bold">{{ $contact->address }}</p>
                         </div>
                     </div>
                 </div>
@@ -185,7 +186,6 @@
                 <div class="modal-body p-4">
                     <form action="{{ route('bookings.customer.store') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="room_id" value="{{ $room->id }}">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Full Name</label>
                             <input type="text" name="name" class="form-control form-control-lg rounded-3"
@@ -216,6 +216,7 @@
                                     conditions</a>
                             </label>
                         </div>
+                        <input type="hidden" name="room_id" value="{{ $room->id }}">
                         <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold">
                             <i class="bi bi-check-circle me-2"></i> Confirm Booking
                         </button>

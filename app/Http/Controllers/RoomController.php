@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\Room;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ class RoomController extends Controller
     {
         $rooms = Room::all();
         $profile = Profile::first();
-        return view('pages.rooms.index', compact('rooms','profile'));
+        $contact = Contact::first();
+        return view('pages.rooms.index', compact('rooms','profile', 'contact'));
     }
 
     public function show($slug)
@@ -20,6 +22,7 @@ class RoomController extends Controller
         $room = Room::where('slug', $slug)->firstOrFail();
         $relatedRooms = Room::all();
         $profile = Profile::first();
-        return view('pages.rooms.show', compact('room','profile', 'relatedRooms'));
+        $contact = Contact::first();
+        return view('pages.rooms.show', compact('room','profile', 'relatedRooms', 'contact'));
     }
 }

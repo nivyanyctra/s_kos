@@ -31,7 +31,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="size" class="form-label">Ukuran (contoh: 3x4 m)</label>
+                <label for="size" class="form-label">Ukuran (contoh: 3x4)</label>
                 <input type="text" name="size" id="size" class="form-control" required>
             </div>
 

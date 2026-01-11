@@ -32,6 +32,7 @@ Route::post('/register', [AuthController::class, 'store'])->name('register.store
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/terms-and-conditions', [TermsConditionController::class, 'show'])->name('terms.show');
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('privacy.show');
 Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.customer.store');
 Route::post('/messages', [ContactMessageController::class, 'store'])->name('messages.customer.store');
 

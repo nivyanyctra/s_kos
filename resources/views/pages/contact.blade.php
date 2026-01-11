@@ -130,7 +130,7 @@
                             <div class="mb-4 form-check">
                                 <input type="checkbox" class="form-check-input" id="privacyCheck" required>
                                 <label class="form-check-label text-muted" for="privacyCheck">
-                                    I agree to the <a href="#"
+                                    I agree to the <a href="{{ route('privacy.show') }}" target="_blank"
                                         class="text-primary text-decoration-underline">privacy
                                         policy</a> and consent to be contacted
                                 </label>

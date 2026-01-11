@@ -18,6 +18,12 @@ class PrivacyPolicyController extends Controller
         return view('admin.privacy.index', compact('privacy', 'profile'));
     }
 
+    public function show()
+    {
+        $privacy = PrivacyPolicy::where('is_active', true)->first();
+        return view('pages.privacy', compact('privacy'));
+    }
+
     /**
      * Update the privacy policy in storage.
      */

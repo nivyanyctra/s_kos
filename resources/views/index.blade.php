@@ -4,7 +4,7 @@
     <section class="position-relative vh-100 d-flex align-items-center overflow-hidden">
         <div class="position-absolute top-0 start-0 w-100 h-100">
             <video class="w-100 h-100 object-fit-cover" autoplay muted loop playsinline>
-                <source src="{{ asset('videos/profile-video.mp4') }}" type="video/mp4">
+                <source src="{{ Storage::url($profile->video_path) }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
@@ -129,14 +129,14 @@
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="position-relative">
                         <div class="ratio ratio-16x9 rounded-4 shadow overflow-hidden">
-                            <img src="{{ asset('images/why-choose-us.jpg') }}" class="w-100 h-100 object-fit-cover"
+                            <img src="{{ Storage::url($profile->photo_path) }}" class="w-100 h-100 object-fit-cover"
                                 alt="Why Choose Us">
                         </div>
                         <div class="position-absolute bottom-0 end-0 m-4 bg-white rounded-3 p-3 shadow-sm border">
                             <div class="d-flex align-items-center">
                                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
                                     style="width: 45px; height: 45px;">
-                                    <i class="bi bi-award fs-4"></i>
+                                    <i class="fa-solid fa-award fs-4"></i>
                                 </div>
                                 <div>
                                     <h5 class="fw-bold mb-0">100% Satisfaction</h5>
@@ -154,6 +154,21 @@
                     </p>
 
                     <div class="row g-4">
+                        @foreach ($whychooseuss as $whychooseus)
+                            <div class="col-md-6">
+                                <div class="d-flex mb-3">
+                                    <div class="bg-light-primary rounded-circle d-flex align-items-center justify-content-center me-3"
+                                        style="width: 50px; height: 50px;">
+                                        <i class="fa-solid {{ $whychooseus->icon }} fs-3 text-primary"></i>
+                                    </div>
+                                    <h4 class="fw-bold mb-0">{{ $whychooseus->title }}</h4>
+                                </div>
+                                <p class="text-muted">{{ $whychooseus->description }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{-- <div class="row g-4">
                         @foreach ([['icon' => 'bi-shield-check', 'title' => '24/7 Security', 'desc' => 'CCTV surveillance, access control, and security personnel ensure your safety around the clock'], ['icon' => 'bi-wifi', 'title' => 'High-Speed Internet', 'desc' => '100 Mbps fiber optic connection in all rooms and common areas for seamless work and entertainment'], ['icon' => 'bi-thermometer-sun', 'title' => 'AC & Hot Water', 'desc' => 'Comfortable climate control and instant hot water in every room']] as $feature)
                             <div class="col-md-6">
                                 <div class="d-flex mb-3">
@@ -166,7 +181,7 @@
                                 <p class="text-muted">{{ $feature['desc'] }}</p>
                             </div>
                         @endforeach
-                    </div>
+                    </div> --}}
 
                     <a href="{{ route('about') }}" class="btn btn-primary mt-4 px-4 py-3 fw-bold rounded-3">
                         Learn More About Us <i class="bi bi-arrow-right ms-2"></i>
@@ -190,7 +205,38 @@
                 <div class="col-lg-10">
                     <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner rounded-4 shadow">
-                            @foreach ([['name' => 'Rina Permata', 'role' => 'Student @ UI', 'text' => 'Living at {{ $profile->name }} has been a game-changer for my studies. The quiet study areas and fast internet helped me maintain my GPA while enjoying a vibrant community.', 'img' => 'tenant-1.jpg'], ['name' => 'Ahmad Fauzi', 'role' => 'Software Engineer', 'text' => 'As a remote worker, I need reliable facilities. {{ $profile->name }}\'s co-working space, backup power, and high-speed internet make it the perfect place to live and work.', 'img' => 'tenant-2.jpg'], ['name' => 'Maya Sari', 'role' => 'Medical Intern', 'text' => 'The 24/7 security and cleanliness standards give me peace of mind after long hospital shifts. The community events also helped me make friends in a new city.', 'img' => 'tenant-3.jpg']] as $index => $testimonial)
+                            @foreach ($testimonials as $index => $testimonial)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }} bg-white p-5">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4 mb-4 mb-md-0">
+                                            <div class="text-center">
+                                                {{-- <img src="{{ asset('images/' . $testimonial->img) }}"
+                                                    class="rounded-circle mb-3" alt="{{ $testimonial->name }}"
+                                                    style="width: 120px; height: 120px; object-fit: cover;"> --}}
+                                                <h5 class="fw-bold mb-0">{{ $testimonial->name }}</h5>
+                                                <p class="text-muted mb-0">{{ $testimonial->role }}</p>
+                                                <div class="d-flex justify-content-center mt-2">
+                                                    @for ($i = 0; $i < 5; $i++)
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="position-relative ps-md-4">
+                                                <div class="position-absolute top-0 start-0 d-none d-md-block">
+                                                    <i class="bi bi-quote text-primary"
+                                                        style="font-size: 3rem; opacity: 0.2;"></i>
+                                                </div>
+                                                <p class="fs-4 fst-italic mb-0 ps-md-5" style="color: #495057;">
+                                                    "{{ $testimonial->text }}"
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                            {{-- @foreach ([['name' => 'Rina Permata', 'role' => 'Student @ UI', 'text' => 'Living at {{ $profile->name }} has been a game-changer for my studies. The quiet study areas and fast internet helped me maintain my GPA while enjoying a vibrant community.', 'img' => 'tenant-1.jpg'], ['name' => 'Ahmad Fauzi', 'role' => 'Software Engineer', 'text' => 'As a remote worker, I need reliable facilities. {{ $profile->name }}\'s co-working space, backup power, and high-speed internet make it the perfect place to live and work.', 'img' => 'tenant-2.jpg'], ['name' => 'Maya Sari', 'role' => 'Medical Intern', 'text' => 'The 24/7 security and cleanliness standards give me peace of mind after long hospital shifts. The community events also helped me make friends in a new city.', 'img' => 'tenant-3.jpg']] as $index => $testimonial)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }} bg-white p-5">
                                     <div class="row align-items-center">
                                         <div class="col-md-4 mb-4 mb-md-0">
@@ -220,7 +266,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endforeach --}}
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
                             data-bs-slide="prev">
@@ -242,8 +288,8 @@
     <section class="py-5 bg-primary text-white">
         <div class="container">
             <div class="row text-center g-4" data-aos="fade-up">
-                @foreach ([['value' => '250+', 'label' => 'Happy Tenants'], ['value' => '15', 'label' => 'Prime Locations'], ['value' => '98%', 'label' => 'Retention Rate'], ['value' => '24/7', 'label' => 'Support']] as $stat)
-                    <div class="col-md-3">
+                @foreach ([['value' => '250+', 'label' => 'Happy Tenants'], ['value' => '98%', 'label' => 'Retention Rate'], ['value' => '24/7', 'label' => 'Support']] as $stat)
+                    <div class="col-md-4">
                         <div class="py-4">
                             <h2 class="display-4 fw-bold mb-2">{{ $stat['value'] }}</h2>
                             <p class="mb-0 opacity-90">{{ $stat['label'] }}</p>
@@ -261,7 +307,7 @@
                 <div class="row g-0">
                     <div class="col-lg-6 d-none d-lg-block">
                         <div class="h-100 w-100 bg-dark"
-                            style="background: url('{{ asset('images/contact-bg.jpg') }}') center/cover;"></div>
+                            style="background: url('{{ Storage::url($profile->photo_path) }}') center/cover;"></div>
                     </div>
                     <div class="col-lg-6 bg-primary text-white">
                         <div class="p-5 d-flex flex-column justify-content-center h-100">
@@ -274,24 +320,24 @@
 
                             <div class="mb-4" data-aos="fade-right" data-aos-delay="200">
                                 <div class="d-flex mb-3">
-                                    <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                                        style="width: 50px; height: 50px;">
-                                        <i class="bi bi-geo-alt fs-3"></i>
+                                    <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0"
+                                        style="width: 50px; height: 50px; flex: 0 0 50px;">
+                                        <i class="fa-solid fa-map fa-fw fs-3"></i>
                                     </div>
                                     <div>
                                         <p class="mb-0 opacity-75">Visit Us</p>
-                                        <h5 class="mb-0 fw-bold">{{ $profile->address }}</h5>
+                                        <h4 class="mb-0 fw-bold text-break">{{ $contact->address }}</h4>
                                     </div>
                                 </div>
 
                                 <div class="d-flex">
                                     <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
                                         style="width: 50px; height: 50px;">
-                                        <i class="bi bi-whatsapp fs-3"></i>
+                                        <i class="fa-brands fa-whatsapp fs-3"></i>
                                     </div>
                                     <div>
                                         <p class="mb-0 opacity-75">WhatsApp</p>
-                                        <h5 class="mb-0 fw-bold">{{ $profile->phone }}</h5>
+                                        <h5 class="mb-0 fw-bold">{{ $contact->phone }}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +345,7 @@
                             <div class="mt-auto" data-aos="fade-right" data-aos-delay="400">
                                 <a href="{{ route('contact') }}"
                                     class="btn btn-light btn-lg px-4 py-3 fw-bold rounded-3 shadow">
-                                    <i class="bi bi-chat-dots me-2"></i>Schedule a Tour
+                                    <i class="fa-solid fa-message me-2"></i>Schedule a Tour
                                 </a>
                                 <p class="mt-3 mb-0 opacity-75 small">We respond within 1 hour during business hours</p>
                             </div>

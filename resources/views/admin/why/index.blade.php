@@ -28,7 +28,7 @@
                         @forelse($whyChooseUs as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td><i class="{{ $item->icon }}"></i></td>
+                                <td><i class="fa-solid {{ $item->icon }}"></i></td>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ Str::limit($item->description, 50) }}</td>
                                 <td>

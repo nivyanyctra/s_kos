@@ -11,11 +11,12 @@ class Room extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'price',
         'size',
         'status',
         'description',
-        'image_path',
+        'cover_image',
     ];
 
     public function facilities()

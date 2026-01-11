@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>404 - Page Not Found</title>
+
+    <link rel="shortcut icon" href="{{ Storage::url($profile->logo_path) }}" type="image/x-icon">
+
+    <!-- App styles (use mix/vite/asset according to your setup) -->
+    @stack('styles')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+
+<body class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+    <div class="text-center">
+        <div class="mb-4">
+            <h1 class="display-1 fw-bold text-warning">404</h1>
+            <h2 class="h3 mb-3">Page Not Found</h2>
+            <p class="text-muted mb-4">The page you're looking for doesn't exist.</p>
+        </div>
+        <a href="/" class="btn btn-primary btn-lg">
+            <i class="fas fa-home me-2"></i>Go to Home
+        </a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @stack('scripts')
+</body>
+
+</html>

@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('privacy_policies', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->text('address');
-            $table->text('location_map');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('logo_path');
+            $table->string('title');
+            $table->string('version')->default('1.0');
+            $table->date('effective_date');
+            $table->longText('content');
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('privacy_policies');
     }
 };

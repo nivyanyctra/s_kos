@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
-use App\Models\Setting;
+use App\Models\Profile;
 use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,16 +12,16 @@ class FacilityManagementController extends Controller
 {
     public function index()
     {
-        $setting = Setting::first();
+        $profile = Profile::first();
         $facilities = Facility::with('room')->orderBy('created_at', 'desc')->get();
-        return view('admin.facilities.index', compact('facilities', 'setting'));
+        return view('admin.facilities.index', compact('facilities', 'profile'));
     }
 
     public function create()
     {
-        $setting = Setting::first();
+        $profile = Profile::first();
         $rooms = Room::orderBy('name')->get();
-        return view('admin.facilities.create', compact('setting', 'rooms'));
+        return view('admin.facilities.create', compact('profile', 'rooms'));
     }
 
     public function store(Request $request)
@@ -29,11 +29,12 @@ class FacilityManagementController extends Controller
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'name' => 'required|string|max:255',
+            'categories' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2040',
         ]);
 
-        $data = $request->only(['room_id', 'name', 'description']);
+        $data = $request->only(['room_id', 'name', 'categories', 'description']);
 
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('facilities', 'public');
@@ -48,9 +49,9 @@ class FacilityManagementController extends Controller
 
     public function edit(Facility $facility)
     {
-        $setting = Setting::first();
+        $profile = Profile::first();
         $rooms = Room::orderBy('name')->get();
-        return view('admin.facilities.edit', compact('facility', 'setting', 'rooms'));
+        return view('admin.facilities.edit', compact('facility', 'profile', 'rooms'));
     }
 
     public function update(Request $request, Facility $facility)
@@ -58,11 +59,12 @@ class FacilityManagementController extends Controller
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'name' => 'required|string|max:255',
+            'categories' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2040',
         ]);
 
-        $data = $request->only(['room_id', 'name', 'description']);
+        $data = $request->only(['room_id', 'name', 'categories', 'description']);
 
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada

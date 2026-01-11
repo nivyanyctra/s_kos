@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
             $table->string('name');
+            $table->string('categories');
             $table->string('description');
             $table->string('image_path')->nullable();
             $table->timestamps();

@@ -34,8 +34,8 @@
         @forelse ($rooms as $room)
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
-                    @if ($room->image_path)
-                        <img src="{{ asset('storage/' . $room->image_path) }}" class="card-img-top" alt="{{ $room->name }}" style="height:200px; object-fit:cover;">
+                    @if ($room->cover_image)
+                        <img src="{{ asset('storage/' . $room->cover_image) }}" class="card-img-top" alt="{{ $room->name }}" style="height:200px; object-fit:cover;">
                     @endif
 
                     <div class="card-body d-flex flex-column">
@@ -43,14 +43,16 @@
                         <p class="card-text flex-grow-1">{{ Str::limit($room->description, 100) }}</p>
 
                         <div class="mt-auto d-flex">
-                            <a href="{{ route('admin.rooms.edit', $room->id) }}" class="btn btn-warning btn-sm me-1">Edit</a>
-                            <form id="delete-form-{{ $room->id }}" action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-danger btn-sm me-2" onclick="confirmDelete({{ $room->id }})">
-                                    Hapus
-                                </button>
-                            </form>
+                            <div class="d-flex flex-column gap-2 w-100">
+                                <a href="{{ route('admin.rooms.edit', $room->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form id="delete-form-{{ $room->id }}" action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm w-100" onclick="confirmDelete({{ $room->id }})">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

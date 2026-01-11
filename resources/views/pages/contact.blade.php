@@ -21,10 +21,10 @@
                     Have questions or ready to book your new home? Our friendly team is here to help
                 </p>
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="tel:{{ $setting->phone }}" class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-3">
+                    <a href="tel:{{ $contact->phone }}" class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-3">
                         <i class="bi bi-telephone me-2"></i>Call Us
                     </a>
-                    <a href="mailto:{{ $setting->email }}"
+                    <a href="mailto:{{ $contact->email }}"
                         class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-3">
                         <i class="bi bi-envelope me-2"></i>Email Us
                     </a>
@@ -43,54 +43,95 @@
                         </h2>
                     </div>
                     <div class="card-body p-5">
-                        <form id="contactForm">
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        <form id="contactForm" action="{{ route('messages.customer.store') }}" method="POST">
+                            @csrf
                             <div class="mb-4">
                                 <label for="name" class="form-label fw-bold">Full Name</label>
-                                <input type="text" class="form-control form-control-lg rounded-3" id="name"
-                                    placeholder="John Doe" required>
-                                <div class="invalid-feedback">Please enter your name</div>
+                                <input type="text"
+                                    class="form-control form-control-lg rounded-3 @error('name') is-invalid @enderror"
+                                    id="name" name="name" placeholder="John Doe" value="{{ old('name') }}"
+                                    required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="email" class="form-label fw-bold">Email Address</label>
-                                <input type="email" class="form-control form-control-lg rounded-3" id="email"
-                                    placeholder="you@example.com" required>
-                                <div class="invalid-feedback">Please enter a valid email address</div>
+                                <input type="email"
+                                    class="form-control form-control-lg rounded-3 @error('email') is-invalid @enderror"
+                                    id="email" name="email" placeholder="you@example.com" value="{{ old('email') }}"
+                                    required>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="phone" class="form-label fw-bold">Phone Number</label>
                                 <div class="input-group">
                                     <span class="input-group-text rounded-start-3 bg-light">+62</span>
-                                    <input type="tel" class="form-control form-control-lg rounded-end-3" id="phone"
-                                        placeholder="812-3456-7890" required>
+                                    <input type="tel"
+                                        class="form-control form-control-lg rounded-end-3 @error('phone') is-invalid @enderror"
+                                        id="phone" name="phone" placeholder="812-3456-7890"
+                                        value="{{ old('phone') }}" required>
+                                    @error('phone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="invalid-feedback">Please enter a valid phone number</div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="subject" class="form-label fw-bold">Subject</label>
-                                <select class="form-select form-select-lg rounded-3" id="subject" required>
+                                <select class="form-select form-select-lg rounded-3 @error('subject') is-invalid @enderror"
+                                    id="subject" name="subject" required>
                                     <option value="" selected disabled>Select a subject</option>
-                                    <option value="booking">Room Booking Inquiry</option>
-                                    <option value="maintenance">Maintenance Request</option>
-                                    <option value="complaint">Complaint/Suggestion</option>
-                                    <option value="general">General Question</option>
+                                    <option value="booking" {{ old('subject') == 'booking' ? 'selected' : '' }}>Room
+                                        Booking Inquiry</option>
+                                    <option value="maintenance" {{ old('subject') == 'maintenance' ? 'selected' : '' }}>
+                                        Maintenance Request</option>
+                                    <option value="complaint" {{ old('subject') == 'complaint' ? 'selected' : '' }}>
+                                        Complaint/Suggestion</option>
+                                    <option value="general" {{ old('subject') == 'general' ? 'selected' : '' }}>General
+                                        Question</option>
                                 </select>
-                                <div class="invalid-feedback">Please select a subject</div>
+                                @error('subject')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label for="message" class="form-label fw-bold">Message</label>
-                                <textarea class="form-control form-control-lg rounded-3" id="message" rows="5"
-                                    placeholder="How can we help you today?" required></textarea>
-                                <div class="invalid-feedback">Please enter your message</div>
+                                <textarea class="form-control form-control-lg rounded-3 @error('message') is-invalid @enderror" id="message"
+                                    name="message" rows="5" placeholder="How can we help you today?" required>{{ old('message') }}</textarea>
+                                @error('message')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-4 form-check">
                                 <input type="checkbox" class="form-check-input" id="privacyCheck" required>
                                 <label class="form-check-label text-muted" for="privacyCheck">
-                                    I agree to the <a href="#" class="text-primary text-decoration-underline">privacy
+                                    I agree to the <a href="{{ route('privacy.show') }}" target="_blank"
+                                        class="text-primary text-decoration-underline">privacy
                                         policy</a> and consent to be contacted
                                 </label>
                                 <div class="invalid-feedback">You must agree to the terms</div>
@@ -103,15 +144,6 @@
                     </div>
                 </div>
 
-                <!-- Response Message -->
-                <div id="formResponse" class="alert alert-success mt-4 d-none rounded-4 shadow-sm">
-                    <h5 class="alert-heading fw-bold mb-2">
-                        <i class="bi bi-check-circle me-2"></i>Thank you for contacting us!
-                    </h5>
-                    <p class="mb-0">We've received your message and will get back to you within 24 hours. For urgent
-                        inquiries, please call us directly at <a href="tel:{{ $setting->phone }}"
-                            class="alert-link">{{ $setting->phone }}</a>.</p>
-                </div>
             </div>
 
             <!-- Contact Information -->
@@ -124,43 +156,45 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="d-flex mb-4">
-                            <div class="bg-light-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                                style="width: 50px; height: 50px;">
-                                <i class="bi bi-geo-alt fs-3 text-primary"></i>
+                            <div class="bg-light-primary rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0"
+                                style="width: 50px; height: 50px; flex: 0 0 50px;">
+                                <i class="fa-solid fa-map fa-fw fs-3"></i>
                             </div>
                             <div>
                                 <h5 class="fw-bold mb-0">Our Location</h5>
-                                <p class="text-muted mb-0">{{ $setting->address }}</p>
+                                <p class="text-muted mb-0">{{ $contact->address }}</p>
                             </div>
                         </div>
 
                         <div class="d-flex mb-4">
                             <div class="bg-light-primary rounded-circle d-flex align-items-center justify-content-center me-3"
                                 style="width: 50px; height: 50px;">
-                                <i class="bi bi-clock fs-3 text-primary"></i>
+                                <i class="fa-solid fa-clock fs-3 text-primary"></i>
                             </div>
                             <div>
                                 <h5 class="fw-bold mb-0">Business Hours</h5>
-                                <ul class="list-unstyled mb-0 text-muted">
+                                <p class="mb-0 text-muted">{{ $contact->business_hours }}</p>
+                                {{-- <ul class="list-unstyled mb-0 text-muted">
                                     <li>Monday - Friday: 8:00 AM - 8:00 PM</li>
                                     <li>Saturday: 9:00 AM - 6:00 PM</li>
                                     <li>Sunday: 10:00 AM - 4:00 PM</li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
 
                         <div class="d-flex mb-4">
                             <div class="bg-light-primary rounded-circle d-flex align-items-center justify-content-center me-3"
                                 style="width: 50px; height: 50px;">
-                                <i class="bi bi-telephone fs-3 text-primary"></i>
+                                <i class="fa-solid fa-phone fs-3 text-primary"></i>
                             </div>
                             <div>
                                 <h5 class="fw-bold mb-0">Phone Numbers</h5>
                                 <ul class="list-unstyled mb-0">
                                     <li>
-                                        <a href="tel:{{ $setting->phone }}"
+                                        <a href="tel:{{ $contact->phone }}"
                                             class="text-decoration-none text-dark fw-medium">
-                                            <i class="bi bi-whatsapp me-1 text-success"></i>WhatsApp: {{ $setting->phone }}
+                                            <i class="fa-brands fa-whatsapp me-1 text-success"></i>WhatsApp:
+                                            {{ $contact->phone }}
                                         </a>
                                     </li>
                                 </ul>
@@ -170,15 +204,15 @@
                         <div class="d-flex">
                             <div class="bg-light-primary rounded-circle d-flex align-items-center justify-content-center me-3"
                                 style="width: 50px; height: 50px;">
-                                <i class="bi bi-envelope fs-3 text-primary"></i>
+                                <i class="fa-solid fa-envelope fs-3 text-primary"></i>
                             </div>
                             <div>
                                 <h5 class="fw-bold mb-0">Email Addresses</h5>
                                 <ul class="list-unstyled mb-0">
                                     <li>
-                                        <a href="mailto:{{ $setting->email }}"
+                                        <a href="mailto:{{ $contact->email }}"
                                             class="text-decoration-none text-dark fw-medium">
-                                            <i class="bi bi-calendar-check me-1"></i>Bookings: {{ $setting->email }}
+                                            <i class="bi bi-calendar-check me-1"></i>Bookings: {{ $contact->email }}
                                         </a>
                                     </li>
                                 </ul>
@@ -190,17 +224,17 @@
                         <div class="text-center">
                             <h5 class="fw-bold mb-3">Follow Us</h5>
                             <div class="d-flex justify-content-center gap-3">
-                                <a href="#" class="btn btn-outline-primary rounded-circle p-3" title="Facebook">
-                                    <i class="bi bi-facebook fs-4"></i>
+                                <a href="https://www.facebook.com/{{ $contact->facebook }}" target="_blank" class="btn btn-outline-primary rounded-circle p-3" title="Facebook">
+                                    <i class="fa-brands fa-facebook fs-4"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-primary rounded-circle p-3" title="Instagram">
-                                    <i class="bi bi-instagram fs-4"></i>
+                                <a href="https://www.instagram.com/{{ $contact->instagram }}" target="_blank" class="btn btn-outline-primary rounded-circle p-3" title="Instagram">
+                                    <i class="fa-brands fa-instagram fs-4"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-primary rounded-circle p-3" title="Twitter">
-                                    <i class="bi bi-twitter fs-4"></i>
+                                <a href="https://x.com/{{ $contact->x }}" target="_blank" class="btn btn-outline-primary rounded-circle p-3" title="Twitter">
+                                    <i class="fa-brands fa-twitter fs-4"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-primary rounded-circle p-3" title="YouTube">
-                                    <i class="bi bi-youtube fs-4"></i>
+                                <a href="https://www.youtube.com/{{ $contact->youtube }}" target="_blank" class="btn btn-outline-primary rounded-circle p-3" title="YouTube">
+                                    <i class="fa-brands fa-youtube fs-4"></i>
                                 </a>
                             </div>
                         </div>
@@ -218,10 +252,10 @@
             </div>
             <div class="card-body p-0">
                 <div class="ratio ratio-16x9">
-                    {!! $setting->location_map !!}
+                    {!! $contact->map_embed !!}
                 </div>
                 <div class="p-4 bg-light">
-                    <p class="mb-1 fw-bold">{{ $setting->address }}</p>
+                    <p class="mb-1 fw-bold">{{ $contact->address }}</p>
                     <p class="text-muted mb-0">Click on the map to open in Google Maps for directions</p>
                 </div>
             </div>
@@ -236,28 +270,7 @@
             </div>
             <div class="card-body p-4">
                 <div class="accordion" id="faqAccordion">
-                    @foreach ([
-            [
-                'question' => 'What documents are required for booking?',
-                'answer' => 'We require a copy of your ID card (KTP), student/work ID if applicable, and a recent photo. For foreign nationals, we require passport copy and resident permit.',
-            ],
-            [
-                'question' => 'What is the payment process?',
-                'answer' => 'We require a security deposit equivalent to one month\'s rent and the first month\'s payment upfront. Subsequent payments can be made monthly via bank transfer or our mobile app.',
-            ],
-            [
-                'question' => 'Are utilities included in the rent?',
-                'answer' => 'Yes, all our rooms include water, electricity (up to 200 kWh/month), high-speed internet (100 Mbps), and access to common facilities like laundry and kitchen areas.',
-            ],
-            [
-                'question' => 'Can I bring my own furniture?',
-                'answer' => 'Our rooms come fully furnished with bed, wardrobe, desk, and chair. You\'re welcome to bring personal items like bedding, lamps, or decorations, but major furniture changes require prior approval.',
-            ],
-            [
-                'question' => 'What is your visitor policy?',
-                'answer' => 'Visitors are welcome until 10:00 PM. For overnight guests, we require prior notification and a small additional fee. All visitors must register at the front desk with valid ID.',
-            ],
-        ] as $index => $faq)
+                    @foreach ($faqs as $index => $faq)
                         <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden shadow-sm">
                             <h2 class="accordion-header" id="heading{{ $index }}">
                                 <button class="accordion-button fw-bold fs-5 py-3 {{ $index > 0 ? 'collapsed' : '' }}"
@@ -265,14 +278,14 @@
                                     data-bs-target="#collapse{{ $index }}"
                                     aria-expanded="{{ $index == 0 ? 'true' : 'false' }}"
                                     aria-controls="collapse{{ $index }}">
-                                    {{ $faq['question'] }}
+                                    {{ $faq->question }}
                                 </button>
                             </h2>
                             <div id="collapse{{ $index }}"
                                 class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}"
                                 aria-labelledby="heading{{ $index }}" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body fs-5 text-muted">
-                                    {{ $faq['answer'] }}
+                                    {{ $faq->answer }}
                                 </div>
                             </div>
                         </div>
@@ -341,50 +354,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const contactForm = document.getElementById('contactForm');
-            const formResponse = document.getElementById('formResponse');
 
             if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    // Simple validation
-                    let isValid = true;
-                    const inputs = contactForm.querySelectorAll(
-                        'input[required], select[required], textarea[required]');
-
-                    inputs.forEach(input => {
-                        if (!input.value.trim()) {
-                            isValid = false;
-                            input.classList.add('is-invalid');
-                        } else {
-                            input.classList.remove('is-invalid');
-                        }
-                    });
-
-                    const privacyCheck = document.getElementById('privacyCheck');
-                    if (!privacyCheck.checked) {
-                        isValid = false;
-                        privacyCheck.classList.add('is-invalid');
-                    } else {
-                        privacyCheck.classList.remove('is-invalid');
-                    }
-
-                    if (isValid) {
-                        // In a real application, you would submit the form data to your server
-                        contactForm.reset();
-                        formResponse.classList.remove('d-none');
-                        contactForm.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-
-                        // Hide response after 10 seconds
-                        setTimeout(() => {
-                            formResponse.classList.add('d-none');
-                        }, 10000);
-                    }
-                });
-
                 // Real-time validation
+                const inputs = contactForm.querySelectorAll(
+                'input[required], select[required], textarea[required]');
                 inputs.forEach(input => {
                     input.addEventListener('input', function() {
                         if (this.value.trim()) {
@@ -393,11 +367,14 @@
                     });
                 });
 
-                privacyCheck.addEventListener('change', function() {
-                    if (this.checked) {
-                        this.classList.remove('is-invalid');
-                    }
-                });
+                const privacyCheck = document.getElementById('privacyCheck');
+                if (privacyCheck) {
+                    privacyCheck.addEventListener('change', function() {
+                        if (this.checked) {
+                            this.classList.remove('is-invalid');
+                        }
+                    });
+                }
             }
         });
     </script>

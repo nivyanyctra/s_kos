@@ -32,7 +32,7 @@
                             @endforeach
                         </div>
                     </div> --}}
-                    <img src="{{ $room->image_path ? asset('storage/' . $room->image_path) : asset('images/room-placeholder.jpg') }}"
+                    <img src="{{ $room->cover_image ? asset('storage/' . $room->cover_image) : asset('images/room-placeholder.jpg') }}"
                         class="d-block w-100" alt="{{ $room->name }}" style="height: 450px; object-fit: cover;">
 
                     <!-- Status Badge Overlay -->
@@ -74,7 +74,9 @@
                             <div>
                                 <h1 class="h2 fw-bold mb-1">{{ $room->name }}</h1>
                                 <p class="text-muted mb-0">
-                                    <i class="bi bi-geo-alt me-1"></i> {{ $setting->address ?? 'Jl. Contoh No. 123, Kota' }}
+                                    <i class="fa-solid fa-map me-1"></i>
+                                    <span
+                                        title="{{ $contact->address ?? 'Jl. Contoh No. 123, Kota' }}">{{ Str::limit($contact->address ?? 'Jl. Contoh No. 123, Kota', 15) }}</span>
                                 </p>
                             </div>
                             <span class="display-6 fw-bold text-primary">
@@ -123,10 +125,10 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="ratio ratio-16x9">
-                            {!! $setting->location_map !!}
+                            {!! $contact->map_embed !!}
                         </div>
                         <div class="p-3">
-                            <p class="mb-1 fw-bold">{{ $setting->address }}</p>
+                            <p class="mb-1 fw-bold">{{ $contact->address }}</p>
                         </div>
                     </div>
                 </div>
@@ -142,7 +144,7 @@
                         <a href="{{ route('rooms.show', $room->name) }}" class="text-decoration-none">
                             <div class="card border-0 shadow-sm h-100 related-room-card overflow-hidden">
                                 <div class="position-relative">
-                                    <img src="{{ $room->image_path ? asset('storage/' . $room->image_path) : asset('images/room-placeholder.jpg') }}"
+                                    <img src="{{ $room->cover_image ? asset('storage/' . $room->cover_image) : asset('images/room-placeholder.jpg') }}"
                                         class="card-img-top" alt="{{ $room->name }}"
                                         style="height: 200px; object-fit: cover;">
 
@@ -183,37 +185,40 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <form>
+                    <form action="{{ route('bookings.customer.store') }}" method="POST">
+                        @csrf
                         <div class="mb-3">
                             <label class="form-label fw-bold">Full Name</label>
-                            <input type="text" class="form-control form-control-lg rounded-3"
-                                placeholder="Enter your full name">
+                            <input type="text" name="name" class="form-control form-control-lg rounded-3"
+                                placeholder="Enter your full name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Phone Number</label>
-                            <input type="tel" class="form-control form-control-lg rounded-3"
-                                placeholder="0812-3456-7890">
+                            <input type="tel" name="phone" class="form-control form-control-lg rounded-3"
+                                placeholder="0812-3456-7890" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Email Address</label>
-                            <input type="email" class="form-control form-control-lg rounded-3"
-                                placeholder="you@example.com">
+                            <input type="email" name="email" class="form-control form-control-lg rounded-3"
+                                placeholder="you@example.com" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label fw-bold">Booking Duration</label>
-                            <select class="form-select form-select-lg rounded-3">
-                                <option selected>3 months</option>
-                                <option>6 months</option>
-                                <option>1 year</option>
+                            <select name="duration" class="form-select form-select-lg rounded-3" required>
+                                <option value="3 months">3 months</option>
+                                <option value="6 months">6 months</option>
+                                <option value="1 year">1 year</option>
                             </select>
                         </div>
                         <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="termsCheck" required>
                             <label class="form-check-label" for="termsCheck">
-                                I agree to the <a href="#" class="text-primary text-decoration-underline">terms and
+                                I agree to the <a href="{{ route('terms.show') }}"
+                                    class="text-primary text-decoration-underline" target="_blank">terms and
                                     conditions</a>
                             </label>
                         </div>
+                        <input type="hidden" name="room_id" value="{{ $room->id }}">
                         <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold">
                             <i class="bi bi-check-circle me-2"></i> Confirm Booking
                         </button>

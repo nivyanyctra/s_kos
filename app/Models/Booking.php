@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Setting extends Model
+class Booking extends Model
 {
     protected $fillable = [
         'name',
-        'description',
-        'address',
-        'location_map',
         'phone',
         'email',
-        'logo_path',
+        'duration',
+        'room_id',
     ];
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }

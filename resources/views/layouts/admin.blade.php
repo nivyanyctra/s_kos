@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Admin | {{ $setting->name }}</title>
+    <title>Admin | {{ $profile->name }}</title>
 
-    <link rel="shortcut icon" href="{{ Storage::url($setting->logo_path) }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ Storage::url($profile->logo_path) }}" type="image/x-icon">
 
     <!-- App styles (use mix/vite/asset according to your setup) -->
     @stack('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/4f5ac69095.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -33,7 +34,7 @@
         </main>
 
         <footer class="text-center py-3">
-            <small>&copy; {{ date('Y') }} {{ $setting->name }}</small>
+            <small>&copy; {{ date('Y') }} {{ $profile->name }}</small>
         </footer>
     </div>
 

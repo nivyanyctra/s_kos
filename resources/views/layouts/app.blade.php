@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $setting->name }}</title>
+    <title>{{ $profile->name }}</title>
 
-    <link rel="shortcut icon" href="{{ Storage::url($setting->logo_path) }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ Storage::url($profile->logo_path) }}" type="image/x-icon">
 
     <!-- App styles (use mix/vite/asset according to your setup) -->
     @stack('styles')
@@ -18,6 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://kit.fontawesome.com/4f5ac69095.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -34,7 +35,7 @@
     </main>
 
     <footer class="text-center py-3">
-        <small>&copy; {{ date('Y') }} {{ $setting->name }}</small>
+        <small>&copy; {{ date('Y') }} {{ $profile->name }}</small>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>

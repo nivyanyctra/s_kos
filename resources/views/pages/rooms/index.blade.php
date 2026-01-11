@@ -13,10 +13,10 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @forelse ($rooms as $room)
                 <div class="col">
-                    <a href="{{ route('rooms.show', $room->name) }}" class="text-decoration-none">
+                    <a href="{{ route('rooms.show', $room->slug) }}" class="text-decoration-none">
                         <div class="card border-0 shadow-sm h-100 room-card overflow-hidden">
                             <div class="position-relative">
-                                <img src="{{ $room->image_path ? asset('storage/' . $room->image_path) : asset('images/room-placeholder.jpg') }}"
+                                <img src="{{ $room->cover_image ? asset('storage/' . $room->cover_image) : asset('images/room-placeholder.jpg') }}"
                                     class="card-img-top room-image" alt="{{ $room->name }}"
                                     style="height: 220px; object-fit: cover;">
 

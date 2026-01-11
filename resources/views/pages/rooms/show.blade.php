@@ -75,7 +75,8 @@
                                 <h1 class="h2 fw-bold mb-1">{{ $room->name }}</h1>
                                 <p class="text-muted mb-0">
                                     <i class="fa-solid fa-map me-1"></i>
-                                    <span title="{{ $contact->address ?? 'Jl. Contoh No. 123, Kota' }}">{{ Str::limit($contact->address ?? 'Jl. Contoh No. 123, Kota', 15) }}</span>
+                                    <span
+                                        title="{{ $contact->address ?? 'Jl. Contoh No. 123, Kota' }}">{{ Str::limit($contact->address ?? 'Jl. Contoh No. 123, Kota', 15) }}</span>
                                 </p>
                             </div>
                             <span class="display-6 fw-bold text-primary">
@@ -212,7 +213,8 @@
                         <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="termsCheck" required>
                             <label class="form-check-label" for="termsCheck">
-                                I agree to the <a href="#" class="text-primary text-decoration-underline">terms and
+                                I agree to the <a href="{{ route('terms.show') }}"
+                                    class="text-primary text-decoration-underline" target="_blank">terms and
                                     conditions</a>
                             </label>
                         </div>

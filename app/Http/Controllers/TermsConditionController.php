@@ -51,9 +51,10 @@ class TermsConditionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TermsCondition $term)
+    public function show()
     {
-        return view('admin.terms.show', compact('term'));
+        $term = TermsCondition::where('is_active', true)->first();
+        return view('pages.terms', compact('term'));
     }
 
     /**

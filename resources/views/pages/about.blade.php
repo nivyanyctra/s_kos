@@ -16,10 +16,10 @@
                 </svg>
             </div>
             <div class="position-relative z-index-1">
-                <h1 class="display-3 fw-bold mb-3 text-primary">About <span class="text-dark">{{ $setting->name }}</span>
+                <h1 class="display-3 fw-bold mb-3 text-primary">About <span class="text-dark">{{ $profile->name }}</span>
                 </h1>
                 <p class="lead text-muted mb-4 px-md-5">
-                    Where comfort meets community - your home away from home since 2018
+                    {{ $profile->slogan }}
                 </p>
                 <div class="d-flex justify-content-center gap-3">
                     <a href="{{ route('rooms.index') }}" class="btn btn-primary btn-lg px-4 py-3 fw-bold rounded-3 shadow">
@@ -37,17 +37,17 @@
             <div class="col-lg-6">
                 <div class="position-relative">
                     <div class="ratio ratio-16x9 rounded-4 shadow overflow-hidden">
-                        <img src="{{ asset('images/about-story.jpg') }}" class="w-100 h-100 object-fit-cover"
+                        <img src="{{ Storage::url($profile->photo_path) }}" class="w-100 h-100 object-fit-cover"
                             alt="Our Story" style="object-position: center 30%;">
                     </div>
                     <div class="position-absolute bottom-0 end-0 m-3 bg-white rounded-3 p-3 shadow-sm border">
                         <div class="d-flex align-items-center">
                             <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
                                 style="width: 40px; height: 40px;">
-                                <i class="bi bi-award fs-4"></i>
+                                <i class="fa-solid fa-award fs-4"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fw-bold">Trusted Since 2018</h6>
+                                <h6 class="mb-0 fw-bold">Trusted Since 2012</h6>
                                 <small class="text-muted">Over 500 happy tenants</small>
                             </div>
                         </div>
@@ -56,16 +56,9 @@
             </div>
             <div class="col-lg-6">
                 <h2 class="fw-bold mb-4">Our Story</h2>
-                <p class="lead text-muted">Founded with a vision to redefine boarding house living in Indonesia</p>
+                <p class="lead text-muted">{{ $profile->description }}</p>
                 <p class="fs-5 mb-4">
-                    KostKita began in 2018 when our founder, Budi Santoso, noticed the lack of quality, affordable boarding
-                    options for students and young professionals in Jakarta. What started as a single building with 10 rooms
-                    has grown into a trusted community with multiple locations across the city.
-                </p>
-                <p class="fs-5 mb-4">
-                    We believe that everyone deserves a comfortable, safe, and inspiring place to call home. Our commitment
-                    to quality, cleanliness, and community has made us the preferred choice for thousands of tenants over
-                    the years.
+                    {{ $profile->story }}
                 </p>
             </div>
         </div>
@@ -76,21 +69,21 @@
                 <div class="text-center mb-5">
                     <h2 class="fw-bold mb-3">Our Core Values</h2>
                     <p class="text-muted mx-auto" style="max-width: 700px;">
-                        Principles that guide everything we do at {{ $setting->name }}
+                        Principles that guide everything we do at {{ $profile->name }}
                     </p>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                    @foreach ([['icon' => 'bi-shield-check', 'title' => 'Safety First', 'desc' => '24/7 security systems and regular safety audits ensure your peace of mind.'], ['icon' => 'bi-heart-pulse', 'title' => 'Community Care', 'desc' => 'We foster a supportive environment where tenants build meaningful connections.'], ['icon' => 'bi-lightbulb', 'title' => 'Innovation', 'desc' => 'Continuously improving facilities and services using the latest technology.'], ['icon' => 'bi-hand-thumbs-up', 'title' => 'Respect', 'desc' => 'We value diversity and treat every tenant with dignity and understanding.']] as $value)
+                    @foreach ($principles as $value)
                         <div class="col">
                             <div class="card border-0 h-100 shadow-none text-center p-4 value-card">
                                 <div class="mb-4">
                                     <div class="d-inline-block p-4 bg-light-primary rounded-circle mb-3">
-                                        <i class="{{ $value['icon'] }} fs-1 text-primary"></i>
+                                        <i class="fa-solid {{ $value->icon }} fs-1 text-primary"></i>
                                     </div>
                                 </div>
-                                <h4 class="fw-bold mb-3">{{ $value['title'] }}</h4>
-                                <p class="text-muted">{{ $value['desc'] }}</p>
+                                <h4 class="fw-bold mb-3">{{ $value->title }}</h4>
+                                <p class="text-muted">{{ $value->description }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -109,16 +102,16 @@
 
             <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner rounded-4 shadow">
-                    @foreach ([['name' => 'Rina Permata', 'role' => 'Student @ UI', 'text' => 'Living at KostKita has been a game-changer for my studies. The quiet study areas and fast internet helped me maintain my GPA while enjoying a vibrant community.', 'img' => 'tenant-1.jpg'], ['name' => 'Ahmad Fauzi', 'role' => 'Software Engineer', 'text' => 'As a remote worker, I need reliable facilities. KostKita\'s co-working space, backup power, and high-speed internet make it the perfect place to live and work.', 'img' => 'tenant-2.jpg'], ['name' => 'Maya Sari', 'role' => 'Medical Intern', 'text' => 'The 24/7 security and cleanliness standards give me peace of mind after long hospital shifts. The community events also helped me make friends in a new city.', 'img' => 'tenant-3.jpg']] as $index => $testimonial)
+                    @foreach ($testimonials as $index => $testimonial)
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }} bg-white p-5">
                             <div class="row align-items-center">
                                 <div class="col-md-4 mb-4 mb-md-0">
                                     <div class="text-center">
-                                        <img src="{{ asset('images/' . $testimonial['img']) }}" class="rounded-circle mb-3"
-                                            alt="{{ $testimonial['name'] }}"
-                                            style="width: 120px; height: 120px; object-fit: cover;">
-                                        <h5 class="fw-bold mb-0">{{ $testimonial['name'] }}</h5>
-                                        <p class="text-muted mb-0">{{ $testimonial['role'] }}</p>
+                                        {{-- <img src="{{ asset('images/' . $testimonial->img) }}"
+                                                    class="rounded-circle mb-3" alt="{{ $testimonial->name }}"
+                                                    style="width: 120px; height: 120px; object-fit: cover;"> --}}
+                                        <h5 class="fw-bold mb-0">{{ $testimonial->name }}</h5>
+                                        <p class="text-muted mb-0">{{ $testimonial->role }}</p>
                                         <div class="d-flex justify-content-center mt-2">
                                             @for ($i = 0; $i < 5; $i++)
                                                 <i class="bi bi-star-fill text-warning"></i>
@@ -132,7 +125,7 @@
                                             <i class="bi bi-quote text-primary" style="font-size: 3rem; opacity: 0.2;"></i>
                                         </div>
                                         <p class="fs-4 fst-italic mb-0 ps-md-5" style="color: #495057;">
-                                            "{{ $testimonial['text'] }}"
+                                            "{{ $testimonial->text }}"
                                         </p>
                                     </div>
                                 </div>
@@ -158,7 +151,7 @@
             <div class="row g-0">
                 <div class="col-lg-6 d-none d-lg-block">
                     <div class="location-map-container h-100 w-100">
-                        {!! $setting->location_map !!}
+                        {!! $contact->map_embed !!}
                     </div>
                 </div>
                 <div class="col-lg-6 bg-primary text-white">
@@ -170,20 +163,20 @@
                         </p>
                         <ul class="list-unstyled mb-5">
                             <li class="d-flex mb-3">
-                                <i class="bi bi-geo-alt fs-4 me-3 mt-1"></i>
-                                <span>{{ $setting->address }}</span>
+                                <i class="fa-solid fa-map fs-4 me-3 mt-1"></i>
+                                <span>{{ $contact->address }}</span>
                             </li>
                             <li class="d-flex mb-3">
-                                <i class="bi bi-telephone fs-4 me-3 mt-1"></i>
-                                <span>{{ $setting->phone }}</span>
+                                <i class="fa-solid fa-phone fs-4 me-3 mt-1"></i>
+                                <span>{{ $contact->phone }}</span>
                             </li>
                             <li class="d-flex mb-3">
-                                <i class="bi bi-envelope fs-4 me-3 mt-1"></i>
-                                <span>{{ $setting->email }}</span>
+                                <i class="fa-solid fa-envelope fs-4 me-3 mt-1"></i>
+                                <span>{{ $contact->email }}</span>
                             </li>
                             <li class="d-flex">
-                                <i class="bi bi-clock fs-4 me-3 mt-1"></i>
-                                <span>Mon - Fri: 8AM - 8PM | Sat - Sun: 9AM - 5PM</span>
+                                <i class="fa-solid fa-clock fs-4 me-3 mt-1"></i>
+                                <span>{{ $contact->business_hours }}</span>
                             </li>
                         </ul>
                         <div class="mt-auto">

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\Setting;
 use App\Models\Facility;
+use App\Models\Principle;
 use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
 use Illuminate\Http\Request;
@@ -32,7 +33,10 @@ class HomeController extends Controller
     public function about()
     {
         $profile = Profile::first();
-        return view('pages.about', compact('profile'));
+        $principles = Principle::all();
+        $testimonials = Testimonial::all();
+        $contact = Contact::first();
+        return view('pages.about', compact('profile', 'principles', 'testimonials', 'contact'));
     }
     public function contact()
     {

@@ -6,6 +6,7 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
+                <a href="{{ route('admin.faq.create') }}" class="btn btn-m btn-primary">Tambah FAQ</a>
                 <table class="table mb-4">
                     <thead>
                         <tr>
@@ -22,10 +23,19 @@
                                 <td>{{ $data->question }}</td>
                                 <td>{{ $data->answer }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-warning btn-sm mb-1" data-bs-toggle="modal"
                                         data-bs-target="#editFAQModal{{ $data->id }}">
                                         Edit
                                     </button>
+                                    <form id="delete-form-{{ $data->id }}"
+                                        action="{{ route('admin.faq.destroy', $data->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="confirmDelete({{ $data->id }})">
+                                            Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             <!-- Modal -->
@@ -39,22 +49,23 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('admin.faq.update', $data->id) }}"
-                                                method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('admin.faq.update', $data->id) }}" method="POST"
+                                                enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
 
                                                 <div class="mb-3">
-                                                    <label for="question" class="form-label">Icon</label>
-                                                    <input type="text" class="form-control" id="question" name="question"
-                                                    value="{{ old('question', $data->question) }}" required>
+                                                    <label for="question" class="form-label">Question</label>
+                                                    <input type="text" class="form-control" id="question"
+                                                        name="question" value="{{ old('question', $data->question) }}"
+                                                        required>
                                                     @error('question')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="answer" class="form-label">Judul</label>
+                                                    <label for="answer" class="form-label">Answer</label>
                                                     <input type="text" class="form-control" id="answer" name="answer"
                                                         value="{{ old('answer', $data->answer) }}" required>
                                                     @error('answer')
@@ -76,3 +87,24 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Hapus faq?',
+                text: "Data tidak dapat dikembalikan setelah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            })
+        }
+    </script>
+@endpush

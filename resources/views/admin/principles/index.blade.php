@@ -4,7 +4,17 @@
 
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Principles</h3>
+                <a href="{{ route('admin.principle.create') }}" class="btn btn-primary float-right">Tambah Principle</a>
+            </div>
             <div class="card-body">
                 <table class="table mb-4">
                     <thead>
@@ -22,10 +32,19 @@
                                 <td>{{ $principle->title }}</td>
                                 <td>{{ $principle->description }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-warning btn-sm mb-1" data-bs-toggle="modal"
                                         data-bs-target="#editPrincipleModal{{ $principle->id }}">
                                         Edit
                                     </button>
+                                    <form id="delete-form-{{ $principle->id }}"
+                                        action="{{ route('admin.principle.destroy', $principle->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="confirmDelete({{ $principle->id }})">
+                                            Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             <!-- Modal -->
@@ -47,8 +66,9 @@
                                                 <div class="mb-3">
                                                     <label for="icon" class="form-label">Icon</label>
                                                     <input type="text" class="form-control" id="icon" name="icon"
-                                                    value="{{ old('icon', $principle->icon) }}" required>
-                                                    <small>*cari icon di website <a href="https://fontawesome.com/icons" target="_blank">Font Awesome</a></small>
+                                                        value="{{ old('icon', $principle->icon) }}" required>
+                                                    <small>*cari icon di website <a href="https://fontawesome.com/icons"
+                                                            target="_blank">Font Awesome</a></small>
                                                     @error('icon')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
@@ -85,3 +105,23 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Hapus principle?',
+                text: "Data tidak dapat dikembalikan setelah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            })
+        }
+    </script>
+@endpush

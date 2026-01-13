@@ -23,7 +23,7 @@ class PrincipleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.principles.create');
     }
 
     /**
@@ -39,7 +39,7 @@ class PrincipleController extends Controller
         $data = $request->only(['title', 'description', 'icon']);
         Principle::create($data);
         return redirect()
-            ->back()
+            ->route('admin.principle.index')
             ->with('success', 'Principle berhasil ditambahkan.');
     }
 
@@ -81,6 +81,9 @@ class PrincipleController extends Controller
      */
     public function destroy(Principle $principle)
     {
-        //
+        $principle->delete();
+        return redirect()
+            ->route('admin.principle.index')
+            ->with('success', 'Principle berhasil dihapus.');
     }
 }

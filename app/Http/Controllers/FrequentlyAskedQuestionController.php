@@ -23,7 +23,7 @@ class FrequentlyAskedQuestionController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.faqs.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class FrequentlyAskedQuestionController extends Controller
         $data = $request->only(['question', 'answer']);
         FrequentlyAskedQuestion::create($data);
         return redirect()
-            ->back()
+            ->route('admin.faq.index')
             ->with('success', 'Frequently Asked Question berhasil ditambahkan.');
     }
 
@@ -55,7 +55,7 @@ class FrequentlyAskedQuestionController extends Controller
      */
     public function edit(FrequentlyAskedQuestion $faq)
     {
-        //
+
     }
 
     /**
@@ -67,6 +67,7 @@ class FrequentlyAskedQuestionController extends Controller
             'question' => 'required|string|max:255',
             'answer' => 'required|string',
         ]);
+        
         $data = $request->only(['question', 'answer']);
         $faq->update($data);
         return redirect()

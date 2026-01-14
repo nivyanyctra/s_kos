@@ -13,7 +13,7 @@
                 <input type="text" name="name" id="name" class="form-control" required
                     value="{{ old('name', $room->name) }}">
             </div>
-            <input type="hidden" name="slug" id="slug">
+            <input type="hidden" name="slug" id="slug" value="{{ old('slug', $room->slug) }}">
 
             <script>
                 document.getElementById('name').addEventListener('input', function() {
